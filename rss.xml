@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Sun, 29 Apr 2018 15:47:07 GMT</lastBuildDate><item><title><![CDATA[Javascript Demons]]></title><description><![CDATA[Where I recreate the first program I ever wrote.  Decades later, in javascript.]]></description><link>https://wildsilicon.com/blog/2018/demon</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/demon</guid><pubDate>Sat, 28 Apr 2018 00:00:00 GMT</pubDate><content:encoded>&lt;style type=&quot;text/css&quot;&gt;
+.demon table {
+  border-collapse: collapse;
+}
+
+.demon td {
+  border: 2px solid black;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+}
+
+td.demon_neighbor {
+  background: #BBBBBB;
+}
+
+td.demon_cycle {
+  background: #BBBBBB;
+}
+
+td.demon_center {
+  background: #777777;
+}
+&lt;/style&gt;
+&lt;p&gt;&lt;blog-demon&gt;&lt;/blog-demon&gt;&lt;/p&gt;
+&lt;p&gt;This is a very simple 2d cellular automaton.  It has N states denoted 0
+to N-1, and evolves according to only a single rule: a cell with
+value n will convert any of its neighbors with a value of n-1.  In other
+words, a cell in state 5 will convert any of it’s neighbors in state 4 to
+state 5.  That may happen even if in the same time step the original cell is
+being converted from state 5 to state 6.  The states are cyclical:  state 0
+can convert state N-1.  Hence it’s a Cyclical Cellular Automaton, or CCA.&lt;/p&gt;
+&lt;p&gt;If at some point in the simulation you can form a loop of adjacent cells
+from state 0 to state N-1, and have state N-1 also adjacent to start 0,
+then you’ll have a loop that cycles indefinitely.  Such a loop is called
+a demon.&lt;/p&gt;
+&lt;p&gt;I’m not aware of much literature on CCAs, they first came to my
+attention from the August 1989 “Mathematical Recreations”
+&lt;a href=&quot;https://www.scientificamerican.com/article/computer-recreations-1989-08/&quot;&gt;column&lt;/a&gt;
+written by Alexander Dewdney for Scientific American.  They exhibit
+interesting behavior and when started from a random state undergo a
+gradual state transition into very ordered dynamics.  Run the
+simulation at the top of this page and experience it for yourself.&lt;/p&gt;
+&lt;p&gt;As with any cellular automaton, the term &lt;em&gt;neighborhood&lt;/em&gt; admits a variety
+of definitions.  In this simulator, I’ve provided two standard options.&lt;/p&gt;
+&lt;div class=&quot;demon&quot;&gt;
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&lt;/td&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+        &lt;td class=&quot;demon_center&quot;&gt;&lt;/td&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&lt;/td&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Von_Neumann_neighborhood&quot;&gt;von Neumann
+neighborhood&lt;/a&gt;.
+The center cell 4 can convert any of the light gray cells, or cells with
+coordinates that differ by one from the center cell in either x or y, but
+not both.  Diagonally adjacent cells that differ in both x and y
+can not be converted.&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;demon&quot;&gt;
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+        &lt;td class=&quot;demon_center&quot;&gt;&lt;/td&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+        &lt;td class=&quot;demon_neighbor&quot;&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Moore_neighborhood&quot;&gt;Moore
+neighborhood&lt;/a&gt;.  The
+center cell can convert any of it’s neighbors, even diagonally adjacent
+cells.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Personal Background&lt;/h2&gt;
+&lt;p&gt;A CCA simulator with 16 states and a von Neumann neighborhood was the
+first computer program I &lt;em&gt;ever&lt;/em&gt; wrote.  Because it’s so simple to implement
+and because it is also so fun to play with, over the years it’s become my
+own personal “Hello World” program when I start working with a new tech
+stack.&lt;/p&gt;
+&lt;p&gt;I got my first computer in August 1989.  I’d played with computers
+before: a few hours at a time after school in the computer lab, a few
+minutes stolen here and there at a friends house.  But this was the
+first one that was mine, and that I had access too for extended
+periods of time.  It was a 286.  I don’t remember the exact brand, but
+it was something my parents got at Sears.  It was slick.  It had a
+color display, a hard drive, and ran MS DOS 3.1.&lt;/p&gt;
+&lt;p&gt;Like all kids in summer with a new computer, I didn’t sleep for a few
+weeks while I completed my first game, &lt;a href=&quot;https://en.wikipedia.org/wiki/Pool_of_Radiance&quot;&gt;Pool of
+Radiance&lt;/a&gt;.  When I
+finished I had the same “well, that was pointless” moment I always
+seem to have when finishing a game, but I didn’t dwell long because
+classes started up shortly after.  I’m always amused by how quickly a
+game can go from the most important thing in the world to pointless
+the moment you complete it.  Of course, it didn’t stop me from immediately
+proceeding to &lt;a href=&quot;https://en.wikipedia.org/wiki/Curse_of_the_Azure_Bonds&quot;&gt;Curse of the Azure Bonds&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;At some point in the fall I came across a Dewdney’s Scientific
+American article.  I haven’t read the article since that fall 28 years
+ago, but it was the first time I’d heard about cellular automata.
+Dewdney described “debris”, and “defects”, and “demons” — all of
+which you are probably seeing above this text. As soon as I read that
+article I knew I had to build my own simulation environment.  The only
+problem was that I had no idea how to program.  I had basic on that
+old 286, and believe it or not the computer shipped with a manual on
+Basic!  So I set off attempted to build my simulator.  I tried off and
+on for about two weeks and got noplace — I could simulate the
+evolution rules but I could only display about a 100x100 grid, and
+updates were glacial.  It felt like minutes an update.&lt;/p&gt;
+&lt;p&gt;The closest thing I had to the internet back then was some local BBS,
+and a friendly chap on one of them told me that if I really wanted to
+make this work I was going to need to use this language called “c”.
+So I set off to learn c.  Local library actually had a reference
+manual (I don’t recall what it was, but it wasn’t
+K&amp;#x26;R).  The only problem was that I didn’t have a compiler.  I didn’t
+even know where I could get a compiler!  The same BBS chap suggested that
+there were computer labs at Fresno State with copies of Turbo C.  So I
+snuck onto the campus and tried to work out how to program in C.  Progress
+was slow, but eventually I found a boxed copy of Turbo C++ in Waldenbooks
+of all places.  Once I had a C compiler on my personal computer work
+could progress at a reasonable pace.&lt;/p&gt;
+&lt;p&gt;Armed with a C compiler, a bit of documentation, and a
+dream I set off on one of the most memorable programming
+adventures of my life.  I had to figure out compiling, linking, VGA
+graphics, and most of all the x86 segmented memory architecture.  I
+had to use far pointers to access enough memory to fill up the entire
+VGA display, but they were too slow to use for the program code
+itself so I ended up writing my first mixed memory mode program as well.
+Sometime by Thanksgiving I had written my first program: a replica of
+of what Dewdney had described.  Set in a full VGA resolution (640x480)
+universe with 16 states.  I sat back and waited for demons to appear.&lt;/p&gt;
+&lt;p&gt;I had to wait a while.&lt;/p&gt;
+&lt;p&gt;I remember that that computer was insanely loud, I couldn’t really
+sleep when it was on.  But it stayed on for several nights, slowly
+updating.  At first I thought that I must still have bugs in the
+program because there was nothing but randomness — no order was
+appearing, and certainly no demons.  But eventually order emerged from
+chaos and it was all I was promised. Within a few days I had a screen
+full of spiraling demons.&lt;/p&gt;
+&lt;p&gt;I had achieved my goal, and it didn’t seem pointless.  I’ve been a
+programmer ever since.&lt;/p&gt;
+&lt;p&gt;At the top of this page is a recreation of the first program I ever
+wrote.  The thing that has me stunned in disbelief is how fast it runs.  There
+is no waiting for days to see the emergent order with this simulation!
+In fact, if I run it with 16 states like I did in 1989 I have to add
+an explicit delay between states to slow it down enough to see the
+evolution.  To me, this is jaw dropping.  Even despite the fact
+that I’ve been writing high performance code for 25 years or so.
+It’s one thing to see galaxy simulations slowly evolve to
+higher and higher resolution, but nothing has ever hit me quite like
+seeing my first program so fast compared to it’s first
+implementation.&lt;/p&gt;
+&lt;p&gt;The implementation on this page is the sloppiest, un-optimized version
+that could possibly work.  It slammed together in a few hours.  The fact that
+it works, and works well, using an interpreted language in a web browser
+is a testament to the progress we’ve made during the last few decades.
+I’ll come back to this whenever I feel like lamenting the current state
+of our engineering culture.&lt;/p&gt;
+&lt;p&gt;In any event, I hope you enjoy my simulator.  The default parameters are set
+to recreate what I did back in 1989, but it’s a bit more interesting if you
+turn off the frame delay and set it to a large number of states with a
+Moore neighborhood.  When set to a large number of states there isn’t always
+a configuration in the debris that will get things going, so you may need
+to kick it off a few times.  But the resulting fun is worth it.&lt;/p&gt;
+&lt;h2&gt;Dynamics&lt;/h2&gt;
+&lt;p&gt;The basic dynamics are best described with a series of pictures.  These are for
+a Moore neighborhood with 30 states.&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/debris-400-300-ecca06ad5dcfecfbbf1523864dd2300a-63047.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 400px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 69.5%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;debris&quot;
+        title=&quot;&quot;
+        src=&quot;/static/debris-400-300-ecca06ad5dcfecfbbf1523864dd2300a-63047.png&quot;
+        srcset=&quot;/static/debris-400-300-ecca06ad5dcfecfbbf1523864dd2300a-c0309.png 240w,
+/static/debris-400-300-ecca06ad5dcfecfbbf1523864dd2300a-63047.png 400w&quot;
+        sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
+&lt;em&gt;The initial random state.  Pieces of this initial randomness that survive to
+later times are called debris.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/droplet-formation-400-300-c124325203442c81362777d44220d97c-63047.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 400px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 71.50000000000001%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;droplet-formation&quot;
+        title=&quot;&quot;
+        src=&quot;/static/droplet-formation-400-300-c124325203442c81362777d44220d97c-63047.png&quot;
+        srcset=&quot;/static/droplet-formation-400-300-c124325203442c81362777d44220d97c-c0309.png 240w,
+/static/droplet-formation-400-300-c124325203442c81362777d44220d97c-63047.png 400w&quot;
+        sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+     &lt;em&gt;Eventually,
+some order appears in the form of droplets.  These are large areas
+with cells in nearly the same state.  As they expand into the debris
+the random values in the debris are occasionally just right to start
+converting parts of a droplet, setting off a wave that will traverse
+the droplet.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/droplet-domination-400-300-a65cc3fbf60facbb4fc8a8345d3e07e3-63047.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 400px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 72%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;droplet-domination&quot;
+        title=&quot;&quot;
+        src=&quot;/static/droplet-domination-400-300-a65cc3fbf60facbb4fc8a8345d3e07e3-63047.png&quot;
+        srcset=&quot;/static/droplet-domination-400-300-a65cc3fbf60facbb4fc8a8345d3e07e3-c0309.png 240w,
+/static/droplet-domination-400-300-a65cc3fbf60facbb4fc8a8345d3e07e3-63047.png 400w&quot;
+        sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
+&lt;em&gt;The droplets expand and consume most of the debris, but no self replicating
+structures have been formed yet.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/spiral-formation-400-300-62e743c6bfc0fe5a7256904aa8331bb6-63047.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 400px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 71.74999999999999%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;spiral-formation&quot;
+        title=&quot;&quot;
+        src=&quot;/static/spiral-formation-400-300-62e743c6bfc0fe5a7256904aa8331bb6-63047.png&quot;
+        srcset=&quot;/static/spiral-formation-400-300-62e743c6bfc0fe5a7256904aa8331bb6-c0309.png 240w,
+/static/spiral-formation-400-300-62e743c6bfc0fe5a7256904aa8331bb6-63047.png 400w&quot;
+        sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
+&lt;em&gt;Eventually (always with a large enough simulation) closed loops
+are formed, resulting in an expanding and self-renewing spiral.  The first one in this simulation is at the lower left.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/spiral-domination-400-300-a173b91dc934a4280f98f7e062e89166-63047.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 400px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 72.25%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;spiral-domination&quot;
+        title=&quot;&quot;
+        src=&quot;/static/spiral-domination-400-300-a173b91dc934a4280f98f7e062e89166-63047.png&quot;
+        srcset=&quot;/static/spiral-domination-400-300-a173b91dc934a4280f98f7e062e89166-c0309.png 240w,
+/static/spiral-domination-400-300-a173b91dc934a4280f98f7e062e89166-63047.png 400w&quot;
+        sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
+&lt;em&gt;The spirals rapidly expand to fill all space.  The space is then mostly
+ordered, but debris like remnants called defects remain indefinitely.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Orientation of the demons&lt;/h2&gt;
+&lt;p&gt;It turns out that the orientation of the demons depends on the neighborhood
+type being used.&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/moore-25-state-spiral-400-300-fcc7cb475157e72187801f43a428b010-63047.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 400px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 72.25%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Moore 25 state spiral&quot;
+        title=&quot;&quot;
+        src=&quot;/static/moore-25-state-spiral-400-300-fcc7cb475157e72187801f43a428b010-63047.png&quot;
+        srcset=&quot;/static/moore-25-state-spiral-400-300-fcc7cb475157e72187801f43a428b010-c0309.png 240w,
+/static/moore-25-state-spiral-400-300-fcc7cb475157e72187801f43a428b010-63047.png 400w&quot;
+        sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
+&lt;em&gt;Demon domination, Moore neighborhood, 25 states.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/von-neumann-16-state-spiral-400-300-9b9fbc66ce94de984fc15d27a13fbcc4-63047.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 400px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 71.74999999999999%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;von Neumann 16 state spiral&quot;
+        title=&quot;&quot;
+        src=&quot;/static/von-neumann-16-state-spiral-400-300-9b9fbc66ce94de984fc15d27a13fbcc4-63047.png&quot;
+        srcset=&quot;/static/von-neumann-16-state-spiral-400-300-9b9fbc66ce94de984fc15d27a13fbcc4-c0309.png 240w,
+/static/von-neumann-16-state-spiral-400-300-9b9fbc66ce94de984fc15d27a13fbcc4-63047.png 400w&quot;
+        sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    
+&lt;em&gt;Demon domination, von Neumann neighborhood, 16 states.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The von Neumann loops are also perfectly valid Moore loops, so if you
+flip the neighborhood of a demon dominated von Neumann simulation to
+be a Moore neighborhood nothing much will happen.  However, if you
+switch a late stage Moore simulation to use von Neumann neighborhoods,
+then the demons will reconfigure into diagonal loops.&lt;/p&gt;
+&lt;p&gt;Understanding why von Neumann loops are oriented diagonally is
+actually pretty strait-forward.  Start with a closed loop like&lt;/p&gt;
+&lt;div class=&quot;demon&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;    
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;    
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Note that this loop is absolutely stable.  No matter what it
+encounters in the cells outside of the loop, nothing can disrupt this
+loop.  If the cells outside of the loop are debris, the loop will
+cycle until it picks up all of the outside cells.  At which point
+we’ll &lt;em&gt;probably&lt;/em&gt; have a stable loop that looks like (the configuration
+of the second layer isn’t guaranteed, there could be a nearby demon
+also influencing those cells)&lt;/p&gt;
+&lt;div class=&quot;demon&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;    
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;11&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;10&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;9&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;8&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;7&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;6&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;5&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;4&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;12&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;13&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;14&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;15&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;0&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;1&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;2&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;3&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;   
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;    
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;The stable closed loop (gray cells) will eventually recruit cells from the debris, and eventually lower row will be as indicated.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;At this point, the diagonal spiral structure is already being hinted at, but
+if we look at another row (with the stable loop now a bit larger) it becomes
+bloody obvious.&lt;/p&gt;
+&lt;div class=&quot;demon&quot;&gt;
+  &lt;table&gt;
+      &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;    
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;11&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;10&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;9&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;8&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;7&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;6&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;5&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;4&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;12&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;13&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;14&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;15&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;0&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;1&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;2&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;3&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;2&lt;/td&gt;   
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;12&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;13&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;14&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;15&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;0&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;1&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;   
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;    
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;The previously established stable loop (light gray) starts to recruit additional cells.  Now the diagonal pattern is quite clear, and by looking at the cells in
+state 1 you can see the first kink where it bends 90 degrees.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;To understand the geometry of the Moore neighborhood we just need to realize that
+while a Moore simulation &lt;em&gt;could&lt;/em&gt; proceed as above, it’s likely that once the
+initial closed loop is formed that it will not recruit new cells precisely
+as it did in the von Neumann case — it’s more likely that the first group
+of newly recruited cells will looks something like&lt;/p&gt;
+&lt;div class=&quot;demon&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;   
+    &lt;/tr&gt;    
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;11&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;10&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;9&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;8&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;7&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;6&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;5&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;4&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;   
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;12&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;13&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;14&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;15&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;0&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;1&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;2&lt;/td&gt;
+      &lt;td class=&quot;demon_cycle&quot;&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;   
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;   
+    &lt;/tr&gt;    
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;Because the Moore neighborhood allows cells to recruit diagonal neighbors,
+it’s likely that the initial recruitment will have horizontal and vertical
+groups, thus establishing the characteristic orientation of the Moore demons.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;p&gt;The simulator at the top of this page is a React component.  If you’d like
+to experiment with new variations (defining new neighborhoods is always
+entertaining) the code is on github at &lt;a href=&quot;https://github.com/dkirkman/ws-demon&quot;&gt;dkirkman/ws-demon&lt;/a&gt; &lt;/p&gt;
+&lt;p&gt;Wikipedia’s &lt;a href=&quot;https://en.wikipedia.org/wiki/Cyclic_cellular_automaton&quot;&gt;CCA Page&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.scientificamerican.com/article/computer-recreations-1989-08/&quot;&gt;“A cellular universe of debris,
+droplets, defects and demons”&lt;/a&gt;
+Alexander Dewdney, Scientific American,
+August 1989&lt;/p&gt;</content:encoded></item></channel></rss>
