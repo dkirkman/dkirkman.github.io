@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Sun, 29 Apr 2018 01:36:54 GMT</lastBuildDate><item><title><![CDATA[Javascript Demons]]></title><description><![CDATA[Where I recreate the first program I ever wrote.  Decades later, in javascript.]]></description><link>https://wildsilicon.com/blog/2018/demon</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/demon</guid><pubDate>Sat, 28 Apr 2018 00:00:00 GMT</pubDate><content:encoded>&lt;style type=&quot;text/css&quot;&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Sun, 29 Apr 2018 01:58:11 GMT</lastBuildDate><item><title><![CDATA[Javascript Demons]]></title><description><![CDATA[Where I recreate the first program I ever wrote.  Decades later, in javascript.]]></description><link>https://wildsilicon.com/blog/2018/demon</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/demon</guid><pubDate>Sat, 28 Apr 2018 00:00:00 GMT</pubDate><content:encoded>&lt;style type=&quot;text/css&quot;&gt;
 .demon table {
   border-collapse: collapse;
 }
@@ -216,7 +216,7 @@ a Moore neighborhood with 30 states.&lt;/p&gt;
   &lt;/a&gt;
     
 &lt;em&gt;The initial random state.  Pieces of this initial randomness that survive to
-later times are called debris&lt;/em&gt;&lt;/p&gt;
+later times are called debris.&lt;/em&gt;&lt;/p&gt;
 &lt;div&gt;&lt;/div&gt;
 &lt;p&gt;
   &lt;a
@@ -289,7 +289,7 @@ the droplet.&lt;/em&gt;&lt;/p&gt;
   &lt;/a&gt;
     
 &lt;em&gt;The droplets expand and consume most of the debris, but no self replicating
-structures have been formed yet&lt;/em&gt;&lt;/p&gt;
+structures have been formed yet.&lt;/em&gt;&lt;/p&gt;
 &lt;div&gt;&lt;/div&gt;
 &lt;p&gt;
   &lt;a
@@ -395,7 +395,7 @@ type being used.&lt;/p&gt;
   
   &lt;/a&gt;
     
-&lt;em&gt;Demon domination, Moore neighborhood, 25 states&lt;/em&gt;&lt;/p&gt;
+&lt;em&gt;Demon domination, Moore neighborhood, 25 states.&lt;/em&gt;&lt;/p&gt;
 &lt;div&gt;&lt;/div&gt;
 &lt;p&gt;
   &lt;a
@@ -429,7 +429,7 @@ type being used.&lt;/p&gt;
   
   &lt;/a&gt;
     
-&lt;em&gt;Demon domination, von Neumann neighborhood, 16 states&lt;/em&gt;&lt;/p&gt;
+&lt;em&gt;Demon domination, von Neumann neighborhood, 16 states.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The von Neumann loops are also perfectly valid Moore loops, so if you
 flip the neighborhood of a demon dominated von Neumann simulation to
 be a Moore neighborhood nothing much will happen.  However, if you
