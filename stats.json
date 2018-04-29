@@ -1,12 +1,12 @@
 {
   "assetsByChunkName": {
     "component---src-templates-tag-template-jsx": [
-      "component---src-templates-tag-template-jsx-ed5d90d698ceea63ea43.js",
-      "component---src-templates-tag-template-jsx-ed5d90d698ceea63ea43.js.map"
+      "component---src-templates-tag-template-jsx-06fbd3473ea34e10770a.js",
+      "component---src-templates-tag-template-jsx-06fbd3473ea34e10770a.js.map"
     ],
     "component---src-pages-blog-index-jsx": [
-      "component---src-pages-blog-index-jsx-81f63c6ff375cc65864f.js",
-      "component---src-pages-blog-index-jsx-81f63c6ff375cc65864f.js.map"
+      "component---src-pages-blog-index-jsx-75a4c7799d477287fbb2.js",
+      "component---src-pages-blog-index-jsx-75a4c7799d477287fbb2.js.map"
     ],
     "component---src-templates-page-template-jsx": [
       "component---src-templates-page-template-jsx-994fa15cdac2f9049e27.js",
@@ -33,12 +33,16 @@
       "path---blog-tags-interactive-computation-e2317f1f8c74b9dcdea8.js.map"
     ],
     "component---src-templates-category-template-jsx": [
-      "component---src-templates-category-template-jsx-b755cb17ab99eccccdc1.js",
-      "component---src-templates-category-template-jsx-b755cb17ab99eccccdc1.js.map"
+      "component---src-templates-category-template-jsx-cf1c8b990648253d5738.js",
+      "component---src-templates-category-template-jsx-cf1c8b990648253d5738.js.map"
     ],
     "path---blog-categories-interactive-computation": [
       "path---blog-categories-interactive-computation-ebed5c766e99b50944d7.js",
       "path---blog-categories-interactive-computation-ebed5c766e99b50944d7.js.map"
+    ],
+    "component---node-modules-gatsby-plugin-offline-app-shell-js": [
+      "component---node-modules-gatsby-plugin-offline-app-shell-js-5c4c5a0f7af9dc69d6d7.js",
+      "component---node-modules-gatsby-plugin-offline-app-shell-js-5c4c5a0f7af9dc69d6d7.js.map"
     ],
     "component---src-templates-post-template-jsx": [
       "component---src-templates-post-template-jsx-dae912ce394938175693.js",
@@ -53,13 +57,13 @@
       "path---blog-tags-visualization-e6c57b726aab8ed39ea4.js.map"
     ],
     "path---index": [
-      "path---index-a0e39f21c11f6a62c5ab.js",
-      "path---index-a0e39f21c11f6a62c5ab.js.map"
+      "path---index-26048948ee0024705629.js",
+      "path---index-26048948ee0024705629.js.map"
     ],
     "commons": [
-      "commons-523f5dcf9a24459a39d2.js",
+      "commons-2a1ac2ae0f864e4cea9b.js",
       "build-js-styles.css",
-      "commons-523f5dcf9a24459a39d2.js.map",
+      "commons-2a1ac2ae0f864e4cea9b.js.map",
       "build-js-styles.css.map"
     ],
     "path---404-html": [
@@ -78,17 +82,21 @@
       "component---src-pages-blog-tags-jsx-1984f202b3aca7702e41.js",
       "component---src-pages-blog-tags-jsx-1984f202b3aca7702e41.js.map"
     ],
+    "path---offline-plugin-app-shell-fallback": [
+      "path---offline-plugin-app-shell-fallback-a0e39f21c11f6a62c5ab.js",
+      "path---offline-plugin-app-shell-fallback-a0e39f21c11f6a62c5ab.js.map"
+    ],
     "component---src-pages-index-jsx": [
-      "component---src-pages-index-jsx-cbd4623518dc8bcbb2ca.js",
-      "component---src-pages-index-jsx-cbd4623518dc8bcbb2ca.js.map"
+      "component---src-pages-index-jsx-129a40718ebac028a017.js",
+      "component---src-pages-index-jsx-129a40718ebac028a017.js.map"
     ],
     "path---blog-tags-cellular-automata": [
       "path---blog-tags-cellular-automata-4c4b3f6dda60855b7b83.js",
       "path---blog-tags-cellular-automata-4c4b3f6dda60855b7b83.js.map"
     ],
     "app": [
-      "app-b85c0868d7c0cd6c260f.js",
-      "app-b85c0868d7c0cd6c260f.js.map"
+      "app-e1d1a6c18ce29282dd6c.js",
+      "app-e1d1a6c18ce29282dd6c.js.map"
     ],
     "path---404": [
       "path---404-b68206950856f877b606.js",
