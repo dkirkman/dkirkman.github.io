@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Sun, 29 Apr 2018 02:59:09 GMT</lastBuildDate><item><title><![CDATA[Javascript Demons]]></title><description><![CDATA[Where I recreate the first program I ever wrote.  Decades later, in javascript.]]></description><link>https://wildsilicon.com/blog/2018/demon</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/demon</guid><pubDate>Sat, 28 Apr 2018 00:00:00 GMT</pubDate><content:encoded>&lt;style type=&quot;text/css&quot;&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Sun, 29 Apr 2018 06:20:44 GMT</lastBuildDate><item><title><![CDATA[Javascript Demons]]></title><description><![CDATA[Where I recreate the first program I ever wrote.  Decades later, in javascript.]]></description><link>https://wildsilicon.com/blog/2018/demon</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/demon</guid><pubDate>Sat, 28 Apr 2018 00:00:00 GMT</pubDate><content:encoded>&lt;style type=&quot;text/css&quot;&gt;
 .demon table {
   border-collapse: collapse;
 }
@@ -198,7 +198,7 @@ a Moore neighborhood with 30 states.&lt;/p&gt;
   &gt;
     &lt;span
       class=&quot;gatsby-resp-image-background-image&quot;
-      style=&quot;padding-bottom: 69.5%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAACVUlEQVQ4yy2TWXbaQBBFtcoES2giXpAxSD1LTjZaua/gow+ohzdVVZfmYHWtVsaNtVsYnhavwdqfYnWOFi9Py0uydH1a+NisjsH2MfP/2/cqZ429bUxWr3frwlQscWG/PCx+fFkGtCzBEhczF8vE75ztmHd7ALgPuwMVzsMVQlYeInusYQOQj2OFkYt1CnYMd5QG/y+FbUb5VcpQDnGbNn+Y+m8II4TRRRws7XXhslnoHzx62s+arMwFFclOgDJA4fcXwMF++D6Wl4oskOGBqt1JE/cKAiLfXRIyVqMeX6Nb1H9Xe4UIZc9fd9shfYEQAQ/jlC3NCFgqLshQ+z2WxegFuTWURXv2AQWo4HIFIAPYbtX2D1kPFsZqsad4AOaJvCGt08t6IraueMDZzlv2rKLbf7h8sWflSMYiVfHSWNxeWd9F6RUBRMPmwF2mTVTFqEtUrq4N6ZAMhL4Wty4XbRFI9daqHtPbhexCsmO5zQKUVKoVsOP9Nr1CrspH4bMa6qvax8HUStlJoohFyNtzerrSTpYy3n9QUG/l3SYPa/0dEIDX4JFENfLl7m7OP4oounoNQVErSTVkXfLOP7yabVYTFztuskJvchb51pkq30byJYaoYVhOVn6pJp5EdNUVDsEzadM3yjR6tA1jpGLlUYHrMSTz654mQxEci+693X0eL7Xrad25Kh8qKusoUZ+pvxKZaU7zRKWXBmD0KHZs6+xcN7dYPk/PcFv/ed7dxvD//SwO4ozYSLTEoy9cYNSYYVUw6EygnGmu81K8CAUxsqseVJ7/Af3EyveAQrgpAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+      style=&quot;padding-bottom: 69.5%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
     &gt;
       &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -217,7 +217,6 @@ a Moore neighborhood with 30 states.&lt;/p&gt;
     
 &lt;em&gt;The initial random state.  Pieces of this initial randomness that survive to
 later times are called debris.&lt;/em&gt;&lt;/p&gt;
-&lt;div&gt;&lt;/div&gt;
 &lt;p&gt;
   &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -233,7 +232,7 @@ later times are called debris.&lt;/em&gt;&lt;/p&gt;
   &gt;
     &lt;span
       class=&quot;gatsby-resp-image-background-image&quot;
-      style=&quot;padding-bottom: 71.50000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAADiUlEQVQ4yyWTW1NbZRSG80v0ypl60RHHcWqddqRQsNAOlBzIYSecT7YFW4o0tAWxBTkEkn0+JdlJIBwiVTxLrThqZ3rhhRdeOP6bxxW82DN71re+b633We8KVcKbHC1/x7Mn37N9U6N454hvemawW/qInVtj9uo2Zr+NGjV5+FYSPa5iD+2gxR3MeDNuoPV7rIRrbMccQjlJNlMexkAZ99I4e29c4KArS6l9hnzXKpri8bdzIskaba8rFHpz5DvvkQtrmBLbn6vzIv8TbkJHT9qE7LiFO+DjKjaH5zs4fidMYbSBnrCkuo4zVOHH/C+4w0X08Cr16FO81gxqJmC522BDKfLPwjr1nidSvETITJjYgwE717J82T6Fk3bQRNKzzo9ppFep3jtk970RjjIaelTjxUKNl3O7eNcf87Q1y1KkxsS7+4LAxs240mHaxU57+NJhod/AyUi38mghatG4v8/hw6+xuj/j9kWVb3sWKY/uMH9xmMVzVwjCK2jpCqOdr9iKl7AUYegNlqhM7VFtHWGtpRddqbIedTn9pMzBVIkgVuB4wmIrscvu8qkMwCR3eUQYrqEOHWIINy+tS1xn8/oSoV+P/mVv8TnbH0yjXcxQu1XDHChxPB1Qnayxn9ziz7s6J0MbmKLEUlyKmSLW1VlMxceQaVtKmULf5+Tbxgi543WshCGfgycP/ZA7oTwWYAgvPZ5HTRbZjpjkm+eCwkj6mDKwSodYK97McdD7LXxB5yuGDCXpCEMfK+VipW1skWSmfKp9n2LeeIQ7UsUT2Hazq0RTnuSKTEtYq30FrIkDqo+ek+tdw5B7ob2ZOi9Lf1CIGVJdzCq+M9Il1iNl/AGPuY6A9bCLnipiN8+kUzPp4SVUUSHsxk+YT52QeDNCOSMd1iYDDj4K8FMy9qGA3ze+4tWcJzIFQ9wk2+bIv0gURk2vWtKpLblOSuKxPPMX0mdmL8R0cn0qocbdXU6XvmCh/QFLHQ9o3K5ydKuMfr6LyrX7cvH/Tdq/PE7xpsgSQzsyGH9kh/yVcZZawmwrFbSYReLtdfGh8PAHXLTOLPX3M7I1AbmYyWrHYzzFEq5FiYnHZJs2o/bZQEwpstajnhm9OByI1QLUhDhAti7kyoO/fTjJzzem+SuaRc9UKSU1NiIqWqSAnbTwBl1We3TGWjQc2dnNsM6l13KsyKONO2UpWiUva1fvnuU/4tC4tKJqXmsAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+      style=&quot;padding-bottom: 71.50000000000001%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
     &gt;
       &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -255,7 +254,6 @@ with cells in nearly the same state.  As they expand into the debris
 the random values in the debris are occasionally just right to start
 converting parts of a droplet, setting off a wave that will traverse
 the droplet.&lt;/em&gt;&lt;/p&gt;
-&lt;div&gt;&lt;/div&gt;
 &lt;p&gt;
   &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -271,7 +269,7 @@ the droplet.&lt;/em&gt;&lt;/p&gt;
   &gt;
     &lt;span
       class=&quot;gatsby-resp-image-background-image&quot;
-      style=&quot;padding-bottom: 72%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAAD20lEQVQ4yw2TfUwUdBjHf+YyJG0atKbZm9mmGenWjIq0Zb7M1RBUYJDcAQKFpMzCCaKWgoB3DCWOl+Mt5HWgCHKEy2AgYMEgFgLChLPgPBB5ET1e7k7uPv3+ePbbfn98nu/3eb6P6GyZ448bEBZmw93DQJDCwE0vLVb1eSZPnWDshwiGq9uwl5RhdnbG3NhC681REiNKcXdaT/amz3iqUGKpa2a4bQRxPvQWbi59uHwwQ30d0FoPuWnMTJgZfQhPZ+XfhQR4cTk4OGLbvx/LhXhMf3Xze3E3w/1TUFvN7UYLUccnEGn71FxUFpCXOYW+2YhtQI9+CB4YFrjTtUDXfTCVVsNzi0EswioEPbKsCbJJSSEcUkDwQTo64ZyiCZF9UMMZ7zoupsDsYws3dCZ8fcZpa4PJUQt6I8wVlMOyZdgdl2N3egXrL6mY65uZrrzFVFEtZmm3t8NEamAZIsnnLB86x7N9p4mHE/Cb5hafrK4h/bK02tnCwuHvISYa26lT2Avypao8jP0mkrPgQCC4B8H1imfM/PeIa9ouxKtOeax8qYVDwVamx6xUFY2x03WIihoJ1PdAZQWTvUba2yEzE34+Z0dXBWte72HV84G4v3+VxNPzcO8uo0YbIl8q+eksqJLAoJ+n4qoNRQDytVNZZSe3DGJV8NHH47y3tol9W5rISJPAN9tY/3I0qX4ZZJyox1ZczHxwKKKgYIGjoYNyriayJbxVKglQWImMtKGOn8ZzSysb3r7DikWxRLv5kxugJTZmim+kVaXfCFXbI+g/psLc1Epv1GXE2lV9LBUhKDceIcr3H3TFD9CmTFJSKtMgY3Q5WU+s1yVO7k4mR5FDtjKHhH2FeOwxcM0zj8ElAt1SB4bDD1PomYDw93qMw/JW3F4L4ltXFW84xOGyQYPvruNs3aSivEzOp6mZ4h8r0QQVkuKdTqafBvWBNDo+9SdfRslFLOakjFK+LFFbOUhAMKxccQ+XzfdxdRth9ZohXhAeOAgftFlWJv41MTNgpP+2AW1IPil7k6nOamdM8yuFEtLo+jnWXbtRLXFE6K4M0d1uoSJrmo4GM1XXIS4WzshFHTsOvgdmiD5j50n/KHZdDblHyknyzGCgupNn4UrKJdDi5wuRRwkVaxFXSp7Bw0GIPw0NN0lOsRAcaCInF74LmSN86xXSw2/wpPZPnuz5ipIdUSR+EYjSaQfaVXsZ8N5LtX8+RV/GELctBPG3PBnryDimvmFmH82jVj/g3XVGEtXw9bYhUjySaNLo5D0nMr/uLe4qY1C9sxkhwvDfWMRs/yBXG+TyZLwmDSb+B5T2E1Ulh6xdAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+      style=&quot;padding-bottom: 72%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
     &gt;
       &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -290,7 +288,6 @@ the droplet.&lt;/em&gt;&lt;/p&gt;
     
 &lt;em&gt;The droplets expand and consume most of the debris, but no self replicating
 structures have been formed yet.&lt;/em&gt;&lt;/p&gt;
-&lt;div&gt;&lt;/div&gt;
 &lt;p&gt;
   &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -306,7 +303,7 @@ structures have been formed yet.&lt;/em&gt;&lt;/p&gt;
   &gt;
     &lt;span
       class=&quot;gatsby-resp-image-background-image&quot;
-      style=&quot;padding-bottom: 71.74999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAADyElEQVQ4yyWTe0wVZBjGPzkg0bg4MIh7I4SlhcJADaE0BomMUDambFwjEQIkjIvg6DoVGB53uJyOEQjDJKQkQdhqJdi4NImSRFBAwRMMpIQDXWBwzvn1tf549/3xfnve53ne5xU5+VD8Pmg00Nejh7lZVqfnGRtexdA/CKPD8HAKrl+HsBCe9NzjnBouf77GgGw/HpC9WS3jD6H2Ighfh3JsTJJRbJxEXQ0MdkNHK7S3sp6UxLKvL8t7AtHt2s2Cqwsrmjq0v+qordGTXwS3f9AxMrRKbp4Re7sexKX4ciLcdyLEVSorYHxIz3D/GvMPdFCtpkUI8mQVyjova8XTCy6oGB0x0HtznT8nf6e3W4//ywa8bDIQ6jebSfcIwt5KSUIybNvSygveXdReAcONLkatrZnYtw/toTeYjQiDT86hHXxMR7uR+ga9lGmgpMSIk8tfhHmUI1r2xlBkrsDNWUlENDwrXuEZEcTbJ6T8KWlMRycLw3NM3EdKg7t3oEkO89mxhELkYCmi2Kj4EGfXFfy92hHBIgRf4Y+zSwvxiWBpdgZTkcHx7H9YWIChcShTwq7ARTw8G9nxnJrw1xfZ7DhAtKk9t9xseE1sJvLILN92yqVsC1jDwnYRNzcdh49AegakphtRSpDY2Bn8trfj5HRTepxOjPSwZIPA5/lrODiN4GfqyZXQTA6Y7OVA5G2m7q5LhntWMDUpRZjkYWvbRlCwFpUK6urB3bEVfwniLiw4Lt9O/3BOBeZgZ6XG2uEPPDap0Jz9kURpz/la+PobydD66WEJVsVWhSdZFhvYJI4SnwQ1NeAf8DPm4iCBdm9xOSiZi8kaquIbSPFLx9UsmtK076GzG+0HVSwrNbSEFCH2B4xh73KDYgsZD2dvzEQpR49BW5uB5mYZeAmskkGODb9D6JZqVIerqU+uoSiwmAt1y+jVGm5J9n0KUyYUApHqXID7S/fxFi/K7aYQEGykQkr+otnIyZOQ8y68kw1FxbDVZ4mkwK9QHqwg7tAcPf0yCRo5LXI/xMVAVAQi1yuf98pkhjV/SyZ6eX4GhoYMFJ0CC/MGyThRLuQSH3/0f1zyozpRpV5F0wj6/04yK4veE5/xZXI1vxTWIU7vLmBOHgXL07A4B/Mz6LRLpGTBdhGBxtMRp6cKyMw2Ylxbp7/tHtMtXTy59h36s2dYT0ijMqWRstBCKhNqEKVB+SyvScDpR6xrZ2DmN5Ye6UiRMl+VxjdFpLHTc4jcQvnnwQRTP80xln8atYzPpJUlxrhjNKV9SmJ0L+WZffwLIKrYpn9A+AkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+      style=&quot;padding-bottom: 71.74999999999999%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
     &gt;
       &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -325,7 +322,6 @@ structures have been formed yet.&lt;/em&gt;&lt;/p&gt;
     
 &lt;em&gt;Eventually (always with a large enough simulation) closed loops
 are formed, resulting in an expanding and self-renewing spiral.  The first one in this simulation is at the lower left.&lt;/em&gt;&lt;/p&gt;
-&lt;div&gt;&lt;/div&gt;
 &lt;p&gt;
   &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -341,7 +337,7 @@ are formed, resulting in an expanding and self-renewing spiral.  The first one i
   &gt;
     &lt;span
       class=&quot;gatsby-resp-image-background-image&quot;
-      style=&quot;padding-bottom: 72.25%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAACfElEQVQ4y41U22oUQRScb/IXAipEzE527rsmcQOBiE8KBtFEzdXd2Zme7p7pMesligbxRQXRqOCjr/5SWd0bMcEoPjQHpk/XqVN1zngqMSgCBRUbVN0KKlKQsUIVSzR9iVszBvdnW9Sphog1qkTyjjlRBRloyLDmO37rjFH5BbxyLodOahTzGnVcQwQE/SegvWOOJdElcCih3FHueJOVl6iCEk3KRF+ijiSEY3kGIAuL5BiA3Ujm6khAxzZKF71PNx9DXpkgZ4IgQ8U22mCIIqxOA2YEdI8IQAKSLDXPmG9KEijJvow0vK/RNXxe3sDHpQ18G6whP38XW4sf0PZr6ExgbabFAwtIZiIzLMqYNqh6LfbmRviS3cDR8j0cLd3B0dV1eAXNKELtRB7F+8gvl9hefIdHCw0UAS3DzVmDcdTgyUyC1/4qDi4O8DZcRT14hsKnVEHt2JVWQ0UTWrYxpls2VpFhy3ss8ltDxzA9wTBrUCSNc1xllIHmaIJZHT1DoUfzCqankPsGDUUWrPaHKdSw4APpNCxctF0JayaLyS7Hh6S84exDmCWDYUfD2OqBPDU2a8cMFcflYMGyKNmapsvSAVrHLagOc4yzQ3ivgnVs+w0sU8GkswZ7ixoOkwl2znXwJtxE0XtOoMaBWsm0dfrSFr6v7nKwCWC3RXSngyldW6cBLUP7TfUkdoMW1fwQkox/bYpkVw1xhh2aogeHKH3OVWQvzga0GppMYURWk3QXbY86u+2onG4V346jCV6kI2rYPySQmFYK/w6o0+naibR2A+52ObQOCzJvsXNhA0/7ZJgv/B/gyZ+D3ZKpIWTItvfDEW5f/wGz8h4/AQPKsQbjqmcoAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+      style=&quot;padding-bottom: 72.25%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
     &gt;
       &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -378,7 +374,7 @@ type being used.&lt;/p&gt;
   &gt;
     &lt;span
       class=&quot;gatsby-resp-image-background-image&quot;
-      style=&quot;padding-bottom: 72.25%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAADcUlEQVQ4yx2TWU8bBxSF55/0J1SqUql5aFUoTcNSwGO8YyCQNikUBC0JqcFm9zKefTPjMdiEJXRDEVUbVW2iNK3Ux/6kr9d5mIfR2Pd895xzlVbRI8y4GIUjnJTBQcpHy7VoTDYojfd4NHFKOOMTL7SJlq74af8Vl/d77I17PL5dZv/9ezjTEVbSpJpwUOqqj5fSaaoGQTbkj0WXl4sWLx80uV7ucai6hEmdhtricOiAZw9DLmZDzGKPyscV/JxBpxhgpQO8jAx0ch5uMeZg3KUzG/Fs3qeR6D8tTNXDLrbxUy7+l08JUjWCezGtkXWMVEu+RZwVLZxEHSvvYud9GZhook9oVEerxNMB1ytdIXWwcg52Rpcf+lTvlEVQx8i3aeYi9t/LE+SOsIX8KO3QhzKF0Em6KGd7/9Iu/cX8LQvtTp1eviFkLlahT+bg5SOijPgzadLZ+JWbrRuOs7p43X27opkJ0JM2oQzVpjyU9Q8eC0mT8qjO5mCF9trPoiyqsoKuOlRVjdOlHr3Saw7HdHTxW0/7ElRLfLNE0MUVH82pBnv5Lor5yaIQGDjpI1o5E3f1d9zxOnbOF2VRT5lcrH7P1cZzPBluqjKk2CEQO8zpEzbHpBUDK9iDD9BGtlFsWW1z2BI1CUIePSvKM+e4cydv6+RKjcxJ8SqpoYlAM+vhTNk0Mz6lj7ZwZ3vEeY/6pIQiLVGilMZRUV6Eykv1vdB4MhJLEJvU7pbo99TM2viFAE3CC+Y6hBJEXUgrQwaW/KeeMPAkfU9CUrQJl+jhGcer1xjpGL14Juub7MvA6sAa7vy50DvSwxBjeJ3dwUd408cShkNTDsGV6nhSK1d63CdV3PEa3YWIH9Pf8dv0Osu3dwiKx7RzrlzAiZC1cQqeDLRopaqEoyUZ2CJKG9Q+NwlVnf1EKJv4GHNXKAefVTn/oivnFLEjBhtjZQxZfzcZi+lyUhNNjjdeYBZiLPEuXDinIf6dzZhcFg6pZ9qEcyH63TKbA7so5ckuW0NN6sPb3P8wkMJKKLPnhGNbQupjJSwuS8+l6HIZaaFWG1KfmtjTppL7gUBInWyALd2tf1oWD5f/ZO2dAp28zt7qay7nHMpCvf31G/TKf0TSu9MnN5j5mEA94EXtb36pvuHprMmrlV0uvopZvrXDP/klvn33G/4HIA20u33/ZREAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+      style=&quot;padding-bottom: 72.25%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
     &gt;
       &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -396,7 +392,6 @@ type being used.&lt;/p&gt;
   &lt;/a&gt;
     
 &lt;em&gt;Demon domination, Moore neighborhood, 25 states.&lt;/em&gt;&lt;/p&gt;
-&lt;div&gt;&lt;/div&gt;
 &lt;p&gt;
   &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -412,7 +407,7 @@ type being used.&lt;/p&gt;
   &gt;
     &lt;span
       class=&quot;gatsby-resp-image-background-image&quot;
-      style=&quot;padding-bottom: 71.74999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAAC2UlEQVQ4yyVTyXLTQBTUp3FlCcGytXtJKAouHKmCIieyWbKWWaTR4iQOKSBHLnxg0zM+qDTSvOnX/brHE1EHmfAJFdq0g4g0hkxCBQVk3KKMB3SpQh9uoT8985/GmNYYzyfuTVAxzyWab8m9Dp5KezRRS7AWXVQ7wH7dQwcVhL/FLtSQyxHVXLCxgf74ByIb0a4naAeiIWY5VCRRzC0gFzrrIS1wKN1G7pNZ2JNlxSaVayK4Z5Ydpk2Hwq9Zp8iczVhv9yS/FcE9u2hIVaRkESh2VBg/PPKAcAw0xyAJKMPjuqM8W2Myg2ltHJgFsji2zqv4Q1CyPdCtBgzv72ASyvMLx0K7+SiI2M5ZQATCAQjOVzlw7YBasrXqPHvIzk8QoCSwXo142nCOlCqDmoCdM8dKq19/JQjBlwNqzm04v8fNYo9b32AbPaCODDzrkHVZr/fQoTVFIT/Z4vGsx34zUrY6Sn/7DeWioYEEJJuabLczjct3I65nPb6/GZEHe3jDskUTSFR0U7O7pW3ZWpCOUTKLGlNY4feaNYuKbpeofbqaSDSrA/J5j10wII8O2J2U8DTl7OaaxlBGoN18NJ9hPTBvBnJONznfp/MBDY0rFhL9UpGhzR/jxtlWAWO2uociKa9ZUEJoCNSzmPHJJrLQmGKBp1RgH+xgNnsoRkuvDyji0RlTUVW3ZBaZjCag+4ydk9wkLEj2EOxczykjoDHJQBdH1MkEQ8PGrHVs5HzHhyNIpXP+8lRhuxhp5kQDObrsDl7udyjTB163AdoGOCUbK2PzjDJ7oAzhIqNomMo6NulpzjHou9WjS4AgKcXb8+NlxWDblNNlQ4ky5A3hgJuQ34xNEXJNSZoht2Yp1jWxQU5FtXWcjdrkeJdtsDveLG9aMnNLg+uTHBcvLlCeNvj15S+NqXDja1zHP2lKgVsadrU44OrVjtfScIYCQ1RgPJswvWcWZxLt53/4DzRetK7FZ1/VAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+      style=&quot;padding-bottom: 71.74999999999999%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
     &gt;
       &lt;img
         class=&quot;gatsby-resp-image-image&quot;
