@@ -1,4 +1,292 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Sun, 29 Apr 2018 15:47:07 GMT</lastBuildDate><item><title><![CDATA[Javascript Demons]]></title><description><![CDATA[Where I recreate the first program I ever wrote.  Decades later, in javascript.]]></description><link>https://wildsilicon.com/blog/2018/demon</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/demon</guid><pubDate>Sat, 28 Apr 2018 00:00:00 GMT</pubDate><content:encoded>&lt;style type=&quot;text/css&quot;&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Thu, 17 May 2018 21:45:18 GMT</lastBuildDate><item><title><![CDATA[Constructing a cyclical colormap]]></title><description><![CDATA[Designing an effective cyclical colormap is a bit tricky.  Can the recent trend of using perceptually uniform colorspaces produce a cyclical map that is both compelling and capable of discerning small features?]]></description><link>https://wildsilicon.com/blog/articles/2018/cyclical-colormaps</link><guid isPermaLink="false">https://wildsilicon.com/blog/articles/2018/cyclical-colormaps</guid><pubDate>Thu, 17 May 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In my last &lt;a href=&quot;/blog/2018/demon&quot;&gt;post&lt;/a&gt; I gave the option of using a
+variety of different colormaps.  The reason is because historically
+I’ve always favored plain grayscale colormaps.  I’ve always found that
+“color” colormaps grossly distort my data &lt;em&gt;and&lt;/em&gt; make it considerably
+more difficult to accurately identify features.  But a cyclical
+cellular automaton is, well, cyclic.  I can, of course, construct a
+cyclic grayscale map — and I did — but when you do so there is a
+symmetry that it would be nice to break.&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colorwheel type=&quot;cyclic-grayscale&quot;&gt;&lt;/blog-colorwheel&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;This looks like a perfectly decent colormap to me, the only problem
+is how do I differentiate values on the left side of the wheel from
+values on the right side?  Luminosity alone is not enough, we’re going
+to need something else to vary.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;This symmetry could certainly be broken with color, for example with a
+cyclical version of the infamous rainbow map.  The classic way to generate
+it is to vary the channel intensities such that R, G, and B are fully
+on for one third of the range, with the other colors either ramping up
+or ramping down.&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-rgb-plot&gt;&lt;/blog-colormap-rgb-plot&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;RGB channel intensities for the classic rainbow map.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colorwheel type=&quot;rainbow&quot;&gt;&lt;/blog-colorwheel&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;The classic rainbow colormap rotates through all fully saturated
+colors.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Because all of the colors in the classic rainbow map are fully
+saturated the intensity of the colormap peaks at the secondary colors
+yellow, cyan, and purple.  At all three locations two of the RGB
+channels are at their maximum values, and the result is that smooth
+functions will look like they have peaks at the secondary colors.
+This is one of the reasons I’ve hated this colormap through the years.
+Another closely related issue is that when I look at this map, I see
+six colors: red, yellow, green, cyan, blue and purple.  But they
+aren’t taking up approximately equal parts of the map.  There is a
+large red section, that transitions into a very narrow yellow section,
+followed by a large green section, followed by a narrow cyan section,
+and so on.&lt;/p&gt;
+&lt;p&gt;One possible way to fix these deficiencies in the rainbow map would be
+to smooth out the transitions into and away from the secondary colors.
+As shown below, one way would be to ramp up the guns with a sine function
+instead of linearly.&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-rgb-plot trans=&quot;sin&quot;&gt;&lt;/blog-colormap-rgb-plot&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;One way to “improve” the classic rainbow map is to smooth out the transition
+into and out of the secondary colors yellow, cyan, and purple.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Let’s call this sine ramp up “David’s kludgy rainbow”, because I employ
+this kludge whenever I’m in a situation where I actually need a
+colormap.  Of course, after seeing the results I always discard the
+“color” colormap and find some way to make it work with a grayscale.&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colorwheel type=&quot;kludge-rainbow&quot;&gt;&lt;/blog-colorwheel&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;My kludgy “fix” to the rainbow colormap.  The apparent spikes at the
+secondary colors are gone, and the size of the six “colors” are more
+equal.  But in practice it doesn’t really work any better than the
+original rainbow and is an object lesson that amateurs should stay
+away from colormap design.  It is however, the rainbow map used in the
+Demon visualization.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;A lot of ink has been spilt explaining exactly how
+&lt;a href=&quot;http://jakevdp.github.io/blog/2014/10/16/how-bad-is-your-colormap/&quot;&gt;bad&lt;/a&gt;
+the &lt;a href=&quot;https://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/&quot;&gt;rainbow&lt;/a&gt; colormap
+really is, so it’s perhaps not too surprising that I aggressively
+dislike it.  Even better, since I last seriously considered using a
+“color” colormap a considerable amount of ink has been spilt
+describing better ways to construct them.  &lt;a href=&quot;https://www.vis4.net/blog/2013/09/mastering-multi-hued-color-scales/&quot;&gt;Many&lt;/a&gt;
+end up pointing back to Cynthia Brewer’s
+&lt;a href=&quot;http://colorbrewer2.org/#type=sequential&amp;#x26;scheme=BuGn&amp;#x26;n=3&quot;&gt;colorbrewer&lt;/a&gt;.
+The basic idea behind most proposals is to assert that the problem
+with the rainbow map (or other traditional colormaps like Matlab’s Jet
+map) is that euclidean distance in RGB space does not match human
+perception.  This is obviously true looking at the rainbow map — each
+point is separated by an equal distance in RGB space yet perceptually
+we transition through the secondary colors much more quickly than others.&lt;/p&gt;
+&lt;p&gt;The proposed solution is to produce maps with equidistant spacing in
+some colorspace designed to match human perceptions.  Psycophysicists
+have spent decades producing such a space, &lt;a href=&quot;https://en.wikipedia.org/wiki/Lab_color_space#CIELAB&quot;&gt;CIE
+Lab&lt;/a&gt;.  So if we
+take paths through CIE Lab (or its polar variant HCL) we should end up
+with perceptually uniform colormaps — meaning that each step on the
+colormap will be perceived to be the same amount of different as any
+other step.  But I’m still not convinced that being perceptually
+uniform also means that they are generally suitable for extracting
+unbiased quantitative information.&lt;/p&gt;
+&lt;p&gt;But whether or not they are actually a good idea, d3 now has
+&lt;a href=&quot;https://github.com/d3/d3-scale-chromatic&quot;&gt;scale-chromatic&lt;/a&gt; with a
+couple of dozen new color scales, all of which look good, most of
+which are constructed to be perceptually uniform, and several of which
+(the viridis, inferno, magma, and plasma maps) seem to have been very
+carefully designed.  There is even a cyclical map in scale-chromatic.&lt;/p&gt;
+&lt;p&gt;The pressing question for me is:  how do I work out if any of these
+colormaps is actually any good?  Is there anything that can be done much
+beyond drawing a heightmap of the world and saying, “yep, looks good”?
+What we need are test images with properties that enable us to objectively
+scrutinize a colormap.  If we step away from cyclical colormaps for the
+moment, &lt;a href=&quot;https://arxiv.org/abs/1509.03700&quot;&gt;Kovesi (2015)&lt;/a&gt; provides us
+with just such an image.&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;grayscale&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Kovesi’s image to evaluate colormaps.  Horizontally it’s a linear
+ramp from 0 to 1, with a sine wave superimposed on top of it.  The sine
+wave has a period of 8 pixels, and a peak-to-value amplitude of 0.1 at
+the top of the image.  Vertically, the amplitude of the sine wave in
+linearly ramped down to zero by the bottom of the image.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;rainbow&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Rainbow colormap applied to Kovesi’s image.  And now we’ve got some
+objective evidence to back up our assertion that the rainbow colormap
+is rubbish.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;kludge-rainbow&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;The kludgy rainbow.  It’s a little better, but it’s still apparent that
+it’s not at all suitable for quantitative visualization.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Kovesi’s test image is useful for a couple of reasons.  As the
+amplitude of the sine wave perturbation decreases at lower rows, it
+allows us to immediately evaluate how sensitive the color map is to
+small amplitude features.  More importantly, it allows us to determine
+if it is equally sensitive to small amplitude features at all points
+in the map.  For example, the large green area in the rainbow maps
+where most humans have trouble distinguishing small amplitude features
+is readily apparent.&lt;/p&gt;
+&lt;p&gt;The rapid oscillation of the sine wave is also designed to evaluate
+how well a map works at highlighting features on small spatial scales.
+This is important, because there is some evidence that perception of
+color is subtly different on small spatial scales compared to large
+ones.  See Kovesi’s &lt;a href=&quot;https://arxiv.org/abs/1509.03700&quot;&gt;paper&lt;/a&gt; for background
+and references to the existing literature on this.&lt;/p&gt;
+&lt;h2&gt;Are there colormaps that actually work?&lt;/h2&gt;
+&lt;p&gt;So far we’ve worked out that the classic grayscale map is objectively good,
+and that the classic rainbow map is not.  The next obvious question would
+be, are there “color” colormaps that are also objectively good?&lt;/p&gt;
+&lt;p&gt;Not surprisingly, most of the d3 colormaps are excellent.  At the bottom of
+this page there is an interactive explorer you can use to view all of the
+colormaps in d3-scale-chromatic (as well as the other colormaps discussed
+in this post).&lt;/p&gt;
+&lt;p&gt;A few that caught my eye are:&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;bugn&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;BuGn colormap.  One of a large number of colormaps that smoothly transition
+from one color to another.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;inferno&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Inferno colormap.  Part of a set including the viridis, magma and plasma
+maps, inferno was carefully constructed to be perceptually uniform and to
+present a continuous change in lightness.  While more “colorful” than simple
+maps that transition from one color to another, the overall impression seems
+dominated by the continuous ramp up in lightness.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;cubehelix&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;CubeHelix colormap.  This map was designed be both a uniform ramp in
+lightness, and to contain a large number of hues.  As a result of the
+linear ramp in lightness, it’s quite good at distinguishing small features
+in the image.  Due to the large number of hues, it does seem to break into
+sections — dark, green orange, purple, and blue.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Even among the d3 colormaps, I’m not keen on maps with a large number
+of hues even if they perform well on the test image.  The reason is
+that in my own perception, I tend to split hues into different
+categories.  I see shades of gray, but it’s all gray, which is good
+for visualizing quantitative data.  With the multi-hued colormap such
+as CubeHelix for example, I see a sequence of separate hues, and I
+perceive the different hues to by qualitatively different.&lt;/p&gt;
+&lt;p&gt;One way to visualize this is with another test image.  In this case I’m
+displaying an exponentially damped sine wave —  the result is a series
+of peaks and valleys where the peaks each summit at a different level.&lt;/p&gt;
+&lt;p&gt;In grayscale or simple transition between two colors it looks like&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;expsin&quot; cmap=&quot;grayscale&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Exponentially damped sine wave in grayscale.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;expsin&quot; cmap=&quot;bugn&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Exponentially damped sine wave with the BuGn map from
+d3-scale-chromatic.  The peaks far from center seem a bit more visible
+than they do in grayscale, but this is just due to the fact that BuGn
+is an inverted map, going from light to dark — as you look through
+this page you’ll notice that small features always seem a bit more
+discernible on the light part of the maps.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;With multi-hued colormaps however, different rings seem to be qualitatively
+different.  This effect is strongest with the CubeHelix colormap&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;expsin&quot; cmap=&quot;cubehelix&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Exponentially damped sine with the d3-scale-chromatic CubeHelix colormap.
+Note that the inner circles each seem to be a qualitatively different color.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;d3-scale-chromatic also has a cyclical colormap which they call a Rainbow map.  It is designed to be significantly more pleasant than either the
+classic rainbow or my own kludgy rainbow.  It does reasonable well for discerning small features.  The flat spots, however, are more pronounced than for most
+of the good linear maps.&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;d3rainbow&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;d3 rainbow — the cyclical colormap provided by scale-chromatic.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;What’s the difference between good and bad colormaps?&lt;/h2&gt;
+&lt;p&gt;Before we circle around to constructing a nice cyclic colormap, I think we
+need a better grip on why some colormaps work well for feature discrimination,
+and some do not.  Consider the following three maps:&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;rainbow&quot;&gt;
+&lt;/blog-colormap-test-image&gt;
+&lt;br&gt;
+&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;inferno&quot;&gt;
+&lt;/blog-colormap-test-image&gt;
+&lt;br&gt;
+&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;constant-lightness&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;The top map is the classic rainbow, the middle map is the d3 inferno
+scale, and the bottom map is a colorwheel from the HCL space (polar
+variant of CIELAB) with constant chroma and luminance.  I’m calling
+the bottom map “constant lightness”.&lt;/p&gt;
+&lt;p&gt;It seems to be generally accepted that the rainbow map is terrible
+because it is not perceptually uniform.  However, the constant
+lightness map &lt;em&gt;is&lt;/em&gt; perceptually uniform and seems nearly as bad — if
+not worse — than the rainbow map.  What gives?  Well, lets look
+again, this time with a color bar below each map showing the grayscale
+version of the map generated by taking the L component of each color
+in CIELAB space.&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;rainbow&quot; lmap=&quot;true&quot;&gt;
+&lt;/blog-colormap-test-image&gt;
+&lt;br&gt;
+&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;inferno&quot; lmap=&quot;true&quot;&gt;
+&lt;/blog-colormap-test-image&gt;
+&lt;br&gt;
+&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;constant-lightness&quot; lmap=&quot;true&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;To my eyes, it sure looks like I am able to make out small scale features
+when the luminosity of the map is changing, and when the luminosity is
+not changing, different hues are doing little for me.  This is particularly
+evident in the rainbow map, where the flat parts of the luminosity curve
+correspond exactly with the parts of the test image with poor discrimination
+ability.&lt;/p&gt;
+&lt;p&gt;I take from this that while using a perceptually uniform map might be
+nice, it’s not actually all that important.  It does seem to be
+important, however, for the map to have a nice monotonically lightness
+curve.&lt;/p&gt;
+&lt;p&gt;I’m not the first to have come to this conclusion.  Kovesi emphasizes
+it as well in his paper, and Mark Abeln has an incredible &lt;a href=&quot;http://therefractedlight.blogspot.com/2010/06/luminance-is-more-important-than-color.html&quot;&gt;demo&lt;/a&gt;
+of the same image with luminance removed, and with color removed.  You
+want to look at it.&lt;/p&gt;
+&lt;h2&gt;Let’s construct a cyclic colormap already&lt;/h2&gt;
+&lt;p&gt;It’s been a bit of a journey, but everything is in place to construct a nice
+unconfusing cyclical colormap with a good ability to discriminate small features.&lt;/p&gt;
+&lt;p&gt;We want:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A simple lightness profile&lt;/li&gt;
+&lt;li&gt;No more than two colors&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The simple lightness profile will ensure our ability to discriminate small
+features.  We need at least two colors to break the symmetry of a cyclical
+grayscale map.  If we keep it exactly at two, we can minimize the tendency
+to view different colors as qualitatively different things.&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-test-image type=&quot;rake&quot; cmap=&quot;cyclic-demon&quot; lmap=&quot;true&quot;&gt;
+&lt;/blog-colormap-test-image&gt;&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colorwheel type=&quot;cyclic-demon&quot;&gt;&lt;/blog-colorwheel&gt;&lt;/p&gt;
+&lt;p&gt;So this is my super simple cyclical colormap.  In lightness, it’s a linear
+ramp from black to white and then back to black.  I add a little red and
+blue to distinguish the left side of the cycle from the right side of the cycle.&lt;/p&gt;
+&lt;p&gt;It’s not the prettiest map (the d3 rainbow map is arguably more attractive)
+but it fulfills my primary objective of being able to discriminate small features are all parts of the scale.  So I kind of like it.  And that’s why is the
+default colormap for my &lt;a href=&quot;/blog/2018/demon&quot;&gt;Cyclic Cellular Automaton&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;To generate the actual scale, I just use
+&lt;a href=&quot;https://github.com/gka/chroma.js/&quot;&gt;chroma.js&lt;/a&gt;.  Applying
+&lt;code&gt;.correctLightness()&lt;/code&gt; to the scales ensures a uniform ramp
+in lightness as the scale transitions between colors.  So I just need
+to create two scales and then stitch them together, one going from black to
+white via red and another scale that goes back by way of blue.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;    &lt;span class=&quot;token keyword&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;scale1 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; chroma&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;black&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;red&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;white&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                        &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;correctLightness&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;scale2 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; chroma&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;black&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;blue&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;white&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                        &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;correctLightness&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;I’ll leave you with a little widget you can use to select any of the colormaps
+discussed in this post.&lt;/p&gt;
+&lt;p&gt;&lt;noscript&gt; NO JAVASCRIPT — NO COLORMAP (sorry)&lt;/noscript&gt;
+&lt;blog-colormap-selector&gt;&lt;/blog-colormap-selector&gt;&lt;/p&gt;
+&lt;p&gt;All of the code used to generate the images on this page are in a github
+&lt;a href=&quot;https://github.com/dkirkman/ws-colormap&quot;&gt;repo&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Javascript Demons]]></title><description><![CDATA[A 2d simulation of a cyclical cellular automaton, along with a discussion of its dynamics.  This delightful little   visualization has long been my personal "hello world" when diving into new environments, and I'm happy to inaugurate my blog with it.]]></description><link>https://wildsilicon.com/blog/2018/demon</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/demon</guid><pubDate>Sat, 28 Apr 2018 00:00:00 GMT</pubDate><content:encoded>&lt;style type=&quot;text/css&quot;&gt;
 .demon table {
   border-collapse: collapse;
 }
@@ -23,6 +311,11 @@ td.demon_center {
 }
 &lt;/style&gt;
 &lt;p&gt;&lt;blog-demon&gt;&lt;/blog-demon&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align: center;&quot;&gt;
+&lt;noscript&gt;
+          NO JAVASCRIPT -- NO CELLULAR AUTOMATON
+&lt;/noscript&gt;
+&lt;/div&gt;
 &lt;p&gt;This is a very simple 2d cellular automaton.  It has N states denoted 0
 to N-1, and evolves according to only a single rule: a cell with
 value n will convert any of its neighbors with a value of n-1.  In other
@@ -166,7 +459,7 @@ evolution.  To me, this is jaw dropping.  Even despite the fact
 that I’ve been writing high performance code for 25 years or so.
 It’s one thing to see galaxy simulations slowly evolve to
 higher and higher resolution, but nothing has ever hit me quite like
-seeing my first program so fast compared to it’s first
+seeing my first program so fast compared to its first
 implementation.&lt;/p&gt;
 &lt;p&gt;The implementation on this page is the sloppiest, un-optimized version
 that could possibly work.  It slammed together in a few hours.  The fact that

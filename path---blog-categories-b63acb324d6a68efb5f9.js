@@ -1,0 +1,2 @@
+webpackJsonp([0xec8f08b8c9e6],{317:function(t,a){t.exports={data:{site:{siteMetadata:{title:"Wild Silicon",subtitle:"David's development blog",copyright:"Copyright © 2018 David Kirkman. All rights reserved.",menu:[{label:"Articles",path:"/"},{label:"About",path:"/about/"}],author:{name:"David Kirkman",email:"#",telegram:"#",twitter:"#",github:"#",rss:"#",vk:"#"}}},allMarkdownRemark:{group:[{fieldValue:"Visualization",totalCount:2}]}},pathContext:{}}}});
+//# sourceMappingURL=path---blog-categories-b63acb324d6a68efb5f9.js.map
