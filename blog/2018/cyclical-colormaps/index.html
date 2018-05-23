@@ -1,0 +1,301 @@
+<!DOCTYPE html><html><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><link rel="preload" href="/component---src-layouts-index-jsx-0dee3cdcbbfa86b7e891.js" as="script"/><link rel="preload" href="/component---src-templates-post-template-jsx-5e03e8d137762c9d1456.js" as="script"/><link rel="preload" href="/path---blog-2018-cyclical-colormaps-e1be1ea867886c7bdc04.js" as="script"/><link rel="preload" href="/app-7a9ea939469d02a3c8ba.js" as="script"/><link rel="preload" href="/commons-2a1ac2ae0f864e4cea9b.js" as="script"/><link rel="alternate" type="application/rss+xml" href="/rss.xml"/><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,700" rel="stylesheet"/><link rel="sitemap" type="application/xml" href="/sitemap.xml"/><title data-react-helmet="true">Constructing a cyclical colormap - Wild Silicon</title><meta data-react-helmet="true" name="description" content="Designing an effective cyclical colormap is a bit tricky.  Can the recent trend of using perceptually uniform colorspaces produce a cyclical map that is both compelling and capable of discerning small features?"/><style id="gatsby-inlined-css">/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,footer,header,nav,section{display:block}h1{font-size:2em;margin:.67em 0}figcaption,figure,main{display:block}figure{margin:1em 2.5rem}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent;-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit;font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}dfn{font-style:italic}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}audio,video{display:inline-block}audio:not([controls]){display:none;height:0}img{border-style:none}svg:not(:root){overflow:hidden}button,input,optgroup,select,textarea{font-family:sans-serif;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{border:1px solid silver;margin:0 .125rem;padding:.35em .625em .75em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{display:inline-block;vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details,menu{display:block}summary{display:list-item}canvas{display:inline-block}[hidden],template{display:none}html{font-size:100}body{color:#222;line-height:1.625;font-size:1rem;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}body,h1,h2,h3,h4,h5,h6{font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif}h1,h2,h3,h4,h5,h6{font-weight:500}h1{font-size:2.5rem;line-height:3.25rem;margin-top:6.5rem;margin-bottom:1.625rem}h2{font-size:1.6875rem;line-height:2.4375rem}h2,h3{margin-top:3.25rem;margin-bottom:.8125rem}h3{font-size:1.375rem;line-height:1.625rem}h4{font-size:1.2rem;margin-top:2.4375rem}h4,h5{line-height:1.625rem;margin-bottom:.8125rem}h5,h6{font-size:1rem;margin-top:4.0625rem}h6{line-height:1.625rem;margin-bottom:.8125rem}img{max-width:100%;margin:inherit auto}hr,img{border:0;display:block}hr{color:#222;height:26px;margin:3.25rem auto;background-size:100% 26px;background-image:linear-gradient(180deg,transparent 1px,transparent 11px,#222 0,#222 15px,transparent 0,transparent 26px);width:6.25rem}a{color:#5d93ff;text-decoration:none}a:active,a:focus,a:hover{color:#f7a046}b,strong{font-weight:500}ul{list-style:square;margin-bottom:1.625rem}ul li{padding:0 .3125rem;margin-bottom:.625rem}p{line-height:1.625rem;margin-bottom:1.625rem}blockquote{padding:0;font-style:italic;text-align:center}figure{display:block;width:100%;height:auto}figcaption{line-height:1.21875rem;margin-top:.40625rem;color:#222;font-size:.875rem;font-style:italic;margin-bottom:0;text-align:center}.layout{max-width:66.875rem;margin-left:auto;margin-right:auto}.layout:after,.layout:before{content:"";display:table}.layout:after{clear:both}.content__inner{padding:1.5625rem 1.25rem}@media screen and (min-width:685px){figure.float-left,figure.float-right{max-width:19.375rem;padding:0 1.625rem}.float-right{float:right}.float-left{float:left}.content{width:calc(99.9% * 7/12 - 0.78125rem)}.content:nth-child(1n){float:left;margin-right:1.875rem;clear:none}.content:last-child{margin-right:0}.content:nth-child(12n){margin-right:0;float:right}.content:nth-child(12n+1){clear:both}.content__inner{padding:1.875rem 1.25rem}}@media screen and (min-width:960px){.content{width:calc(99.9% * 2/3 - 0.625rem)}.content:nth-child(1n){float:left;margin-right:1.875rem;clear:none}.content:last-child{margin-right:0}.content:nth-child(3n){margin-right:0;float:right}.content:nth-child(3n+1){clear:both}.content__inner{padding:2.5rem 2.1875rem}}code[class*=language-],pre[class*=language-]{color:#000;background:none;text-shadow:0 1px #fff;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}code[class*=language-]::-moz-selection,code[class*=language-] ::-moz-selection,pre[class*=language-]::-moz-selection,pre[class*=language-] ::-moz-selection{text-shadow:none;background:#b3d4fc}code[class*=language-]::selection,code[class*=language-] ::selection,pre[class*=language-]::selection,pre[class*=language-] ::selection{text-shadow:none;background:#b3d4fc}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#f5f2f0}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#708090}.token.punctuation{color:#999}.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#905}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#690}.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url{color:#a67f59;background:hsla(0,0%,100%,.5)}.token.atrule,.token.attr-value,.token.keyword{color:#07a}.token.function{color:#dd4a68}.token.important,.token.regex,.token.variable{color:#e90}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.tags__list-item-link{color:#222}.tags__list-item-link:focus,.tags__list-item-link:hover{color:#5d93ff;border-bottom:1px solid #5d93ff}.categories__list-item-link{color:#222}.categories__list-item-link:focus,.categories__list-item-link:hover{color:#5d93ff;border-bottom:1px solid #5d93ff}.menu{margin-bottom:1.625rem}.menu__list{list-style:none;padding:0;margin:0}.menu__list-item{padding:0;margin:.625rem 0}.menu__list-item-link{font-size:1rem;color:#222;font-weight:400;border:0}.menu__list-item-link:focus,.menu__list-item-link:hover{color:#5d93ff;border-bottom:1px solid #5d93ff}.menu__list-item-link--active{color:#222;border-bottom:1px solid #222}.links{margin-bottom:1.625rem}.links__list{display:-ms-flexbox;display:flex;list-style:none;padding:0;margin:.625rem -.1875rem}.links__list-item{padding:0;margin:0 .1875rem;height:24px;width:1.5rem;line-height:1.5rem;border-radius:.1875rem;text-align:center;background:#ebebeb}.links__list-item a{border:0}.links__list-item a i{font-size:.875rem;color:#555}.links__list-item a:focus i,.links__list-item a:hover i{color:#222}@font-face{font-family:fontello;src:url(/static/fontello.96eee913.eot);src:url(/static/fontello.96eee913.eot#iefix) format("embedded-opentype"),url(/static/fontello.07ad3c83.woff2) format("woff2"),url(/static/fontello.9aee3ebc.woff) format("woff"),url(/static/fontello.554de365.ttf) format("truetype"),url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxtZXRhZGF0YT5Db3B5cmlnaHQgKEMpIDIwMTcgYnkgb3JpZ2luYWwgYXV0aG9ycyBAIGZvbnRlbGxvLmNvbTwvbWV0YWRhdGE+CjxkZWZzPgo8Zm9udCBpZD0iZm9udGVsbG8iIGhvcml6LWFkdi14PSIxMDAwIiA+Cjxmb250LWZhY2UgZm9udC1mYW1pbHk9ImZvbnRlbGxvIiBmb250LXdlaWdodD0iNDAwIiBmb250LXN0cmV0Y2g9Im5vcm1hbCIgdW5pdHMtcGVyLWVtPSIxMDAwIiBhc2NlbnQ9Ijg1MCIgZGVzY2VudD0iLTE1MCIgLz4KPG1pc3NpbmctZ2x5cGggaG9yaXotYWR2LXg9IjEwMDAiIC8+CjxnbHlwaCBnbHlwaC1uYW1lPSJtYWlsIiB1bmljb2RlPSImI3hlODAwOyIgZD0iTTkyOSAxMXY0MjhxLTE4LTIwLTM5LTM2LTE0OS0xMTUtMjM4LTE4OS0yOC0yNC00Ni0zN3QtNDgtMjgtNTctMTNoLTJxLTI2IDAtNTcgMTN0LTQ4IDI4LTQ2IDM3cS04OCA3NC0yMzggMTg5LTIxIDE2LTM5IDM2di00MjhxMC03IDYtMTN0MTItNWg4MjJxNyAwIDEyIDV0NiAxM3ogbTAgNTg2djE0dC0xIDctMSA3LTMgNS01IDQtOCAyaC04MjJxLTcgMC0xMi02dC02LTEycTAtOTQgODMtMTU5IDEwNy04NCAyMjMtMTc2IDQtMyAyMC0xN3QyNS0yMSAyNS0xNyAyOC0xNiAyNC01aDJxMTEgMCAyNCA1dDI4IDE2IDI1IDE3IDI1IDIxIDIwIDE3cTExNiA5MiAyMjQgMTc2IDMwIDI0IDU2IDY1dDI2IDczeiBtNzEgMjF2LTYwN3EwLTM3LTI2LTYzdC02My0yN2gtODIycS0zNiAwLTYzIDI3dC0yNiA2M3Y2MDdxMCAzNyAyNiA2M3Q2MyAyNmg4MjJxMzcgMCA2My0yNnQyNi02M3oiIGhvcml6LWFkdi14PSIxMDAwIiAvPgoKPGdseXBoIGdseXBoLW5hbWU9InR3aXR0ZXIiIHVuaWNvZGU9IiYjeGYwOTk7IiBkPSJNOTA0IDYyMnEtMzctNTQtOTAtOTMgMC04IDAtMjMgMC03My0yMS0xNDV0LTY0LTEzOS0xMDMtMTE3LTE0NC04Mi0xODEtMzBxLTE1MSAwLTI3NiA4MSAxOS0yIDQzLTIgMTI2IDAgMjI0IDc3LTU5IDEtMTA1IDM2dC02NCA4OXExOS0zIDM0LTMgMjQgMCA0OCA2LTYzIDEzLTEwNCA2MnQtNDEgMTE1djJxMzgtMjEgODItMjMtMzcgMjUtNTkgNjR0LTIyIDg2cTAgNDkgMjUgOTEgNjgtODMgMTY0LTEzM3QyMDgtNTVxLTUgMjEtNSA0MSAwIDc1IDUzIDEyN3QxMjcgNTNxNzkgMCAxMzItNTcgNjEgMTIgMTE1IDQ0LTIxLTY0LTgwLTEwMCA1MiA2IDEwNCAyOHoiIGhvcml6LWFkdi14PSI5MjguNiIgLz4KCjxnbHlwaCBnbHlwaC1uYW1lPSJmYWNlYm9vayIgdW5pY29kZT0iJiN4ZjA5YTsiIGQ9Ik01MzUgODQzdi0xNDdoLTg3cS00OCAwLTY1LTIwdC0xNy02MHYtMTA2aDE2NGwtMjItMTY1aC0xNDJ2LTQyNGgtMTcxdjQyNGgtMTQydjE2NWgxNDJ2MTIycTAgMTA0IDU4IDE2MXQxNTUgNTdxODIgMCAxMjctN3oiIGhvcml6LWFkdi14PSI1NzEuNCIgLz4KCjxnbHlwaCBnbHlwaC1uYW1lPSJyc3MiIHVuaWNvZGU9IiYjeGYwOWU7IiBkPSJNMjE0IDEwMHEwLTQ1LTMxLTc2dC03Ni0zMS03NiAzMS0zMSA3NiAzMSA3NiA3NiAzMSA3Ni0zMSAzMS03NnogbTI4Ni02OXExLTE1LTktMjYtMTAtMTItMjctMTJoLTc1cS0xNCAwLTI0IDl0LTExIDIzcS0xMiAxMjgtMTAzIDIxOXQtMjE5IDEwM3EtMTQgMS0yMyAxMXQtOSAyNHY3NXEwIDE2IDEyIDI2IDkgMTAgMjQgMTBoM3E4OS03IDE3MC00NXQxNDUtMTAxcTYzLTYzIDEwMS0xNDV0NDUtMTcxeiBtMjg2LTFxMS0xNS0xMC0yNi0xMC0xMS0yNi0xMWgtODBxLTE0IDAtMjUgMTB0LTEwIDIzcS03IDEyMC01NyAyMjh0LTEyOSAxODgtMTg4IDEyOS0yMjcgNTdxLTE0IDEtMjQgMTF0LTEwIDI0djgwcTAgMTYgMTEgMjYgMTAgMTAgMjUgMTBoMXExNDctOCAyODAtNjd0MjM4LTE2NHExMDQtMTA0IDE2NC0yMzh0NjctMjgweiIgaG9yaXotYWR2LXg9Ijc4NS43IiAvPgoKPGdseXBoIGdseXBoLW5hbWU9ImxpbmtlZGluIiB1bmljb2RlPSImI3hmMGUxOyIgZD0iTTE5NSA1MDF2LTU1M2gtMTg0djU1M2gxODR6IG0xMiAxNzFxMC00MS0yOS02OHQtNzUtMjdoLTFxLTQ2IDAtNzQgMjd0LTI4IDY4cTAgNDEgMjkgNjh0NzUgMjcgNzQtMjcgMjktNjh6IG02NTAtNDA3di0zMTdoLTE4M3YyOTZxMCA1OS0yMyA5MnQtNzEgMzNxLTM1IDAtNTgtMTl0LTM2LTQ4cS02LTE3LTYtNDV2LTMwOWgtMTg0cTEgMjIzIDEgMzYxdDAgMTY1bC0xIDI3aDE4NHYtODBoLTFxMTEgMTggMjMgMzF0MzEgMjkgNDkgMjQgNjQgOXE5NSAwIDE1My02M3Q1OC0xODZ6IiBob3Jpei1hZHYteD0iODU3LjEiIC8+Cgo8Z2x5cGggZ2x5cGgtbmFtZT0iZ2l0aHViIiB1bmljb2RlPSImI3hmMTEzOyIgZD0iTTM1NyAxNzFxMC0yMi03LTQ1dC0yNC00My00MC0xOS00MSAxOS0yNCA0My03IDQ1IDcgNDYgMjQgNDMgNDEgMTkgNDAtMTkgMjQtNDMgNy00NnogbTM1NyAwcTAtMjItNy00NXQtMjQtNDMtNDAtMTktNDEgMTktMjQgNDMtNyA0NSA3IDQ2IDI0IDQzIDQxIDE5IDQwLTE5IDI0LTQzIDctNDZ6IG05MCAwcTAgNjctMzkgMTE0dC0xMDQgNDdxLTIzIDAtMTA5LTEyLTQwLTYtODgtNnQtODcgNnEtODUgMTItMTA5IDEyLTY2IDAtMTA0LTQ3dC0zOS0xMTRxMC00OSAxOC04NXQ0NS01OCA2OC0zMyA3OC0xNyA4My00aDk0cTQ2IDAgODMgNHQ3OCAxNyA2OSAzMyA0NSA1OCAxOCA4NXogbTEyNSA5OXEwLTExNi0zNC0xODUtMjItNDMtNTktNzR0LTc5LTQ4LTk1LTI3LTk2LTEyLTkzLTNxLTQzIDAtNzkgMnQtODIgNy04NSAxNy03NyAyOS02NyA0NS00OCA2NHEtMzUgNjktMzUgMTg1IDAgMTMyIDc2IDIyMS0xNSA0NS0xNSA5NSAwIDY0IDI4IDEyMSA2MSAwIDEwNi0yMnQxMDYtNjlxODIgMjAgMTcyIDIwIDgzIDAgMTU3LTE4IDU4IDQ2IDEwNCA2N3QxMDUgMjJxMjktNTcgMjktMTIxIDAtNDktMTUtOTQgNzYtODkgNzYtMjIyeiIgaG9yaXotYWR2LXg9IjkyOC42IiAvPgoKPGdseXBoIGdseXBoLW5hbWU9InN0YWNrb3ZlcmZsb3ciIHVuaWNvZGU9IiYjeGYxNmM7IiBkPSJNNzE5LTYxaC02MjR2MjY4aC04OXYtMzU3aDgwM3YzNTdoLTkwdi0yNjh6IG0tNTI1IDI5M2wxOCA4NyA0MzctOTItMTgtODd6IG01NyAyMDhsMzggODIgNDA0LTE4OS0zNy04MXogbTExMiAxOTlsNTcgNjkgMzQzLTI4Ny01Ny02OHogbTIyMiAyMTFsMjY2LTM1OC03MS01My0yNjcgMzU3eiBtLTQwMS04MjF2ODloNDQ3di04OWgtNDQ3eiIgaG9yaXotYWR2LXg9Ijg1Ny4xIiAvPgoKPGdseXBoIGdseXBoLW5hbWU9Imluc3RhZ3JhbSIgdW5pY29kZT0iJiN4ZjE2ZDsiIGQ9Ik01NzEgMzUwcTAgNTktNDEgMTAxdC0xMDEgNDItMTAxLTQyLTQyLTEwMSA0Mi0xMDEgMTAxLTQyIDEwMSA0MiA0MSAxMDF6IG03NyAwcTAtOTEtNjQtMTU2dC0xNTUtNjQtMTU2IDY0LTY0IDE1NiA2NCAxNTYgMTU2IDY0IDE1NS02NCA2NC0xNTZ6IG02MSAyMjlxMC0yMS0xNS0zNnQtMzctMTUtMzYgMTUtMTUgMzYgMTUgMzYgMzYgMTUgMzctMTUgMTUtMzZ6IG0tMjgwIDEyM3EtNCAwLTQzIDB0LTU5IDAtNTQtMi01Ny01LTQwLTExcS0yOC0xMS00OS0zMnQtMzMtNDlxLTYtMTYtMTAtNDB0LTYtNTgtMS01MyAwLTU5IDAtNDMgMC00MyAwLTU5IDEtNTMgNi01OCAxMC00MHExMi0yOCAzMy00OXQ0OS0zMnExNi02IDQwLTExdDU3LTUgNTQtMiA1OSAwIDQzIDAgNDIgMCA1OSAwIDU0IDIgNTggNSAzOSAxMXEyOCAxMSA1MCAzMnQzMiA0OXE2IDE2IDEwIDQwdDYgNTggMSA1MyAwIDU5IDAgNDMgMCA0MyAwIDU5LTEgNTMtNiA1OC0xMCA0MHEtMTEgMjgtMzIgNDl0LTUwIDMycS0xNiA2LTM5IDExdC01OCA1LTU0IDItNTkgMC00MiAweiBtNDI4LTM1MnEwLTEyOC0zLTE3Ny01LTExNi02OS0xODB0LTE3OS02OXEtNTAtMy0xNzctM3QtMTc3IDNxLTExNiA2LTE4MCA2OXQtNjkgMTgwcS0zIDQ5LTMgMTc3dDMgMTc3cTUgMTE2IDY5IDE4MHQxODAgNjlxNDkgMyAxNzcgM3QxNzctM3ExMTYtNiAxNzktNjl0NjktMTgwcTMtNDkgMy0xNzd6IiBob3Jpei1hZHYteD0iODU3LjEiIC8+Cgo8Z2x5cGggZ2x5cGgtbmFtZT0idHVtYmxyIiB1bmljb2RlPSImI3hmMTczOyIgZD0iTTUyNyAxMDhsNDQtMTMycS0xMi0xOS02MS0zN3QtOTktMThxLTU4LTEtMTA3IDE1dC03OSA0MS01MyA1OS0zMSA2Ny05IDY2djMwNGgtOTR2MTIwcTQwIDE0IDcyIDM5dDUxIDUwIDMyIDU3IDE5IDU1IDggNDlxMSAzIDMgNXQ0IDJoMTM2di0yMzdoMTg2di0xNDBoLTE4NnYtMjg5cTAtMTcgMy0zMXQxMy0zMCAyOC0yMyA0NS04cTQ0IDEgNzUgMTZ6IiBob3Jpei1hZHYteD0iNTcxLjQiIC8+Cgo8Z2x5cGggZ2x5cGgtbmFtZT0iZHJpYmJibGUiIHVuaWNvZGU9IiYjeGYxN2Q7IiBkPSJNNTcxIDEzcS0yMyAxMzQtNzggMjc4aC0xbC0xLTFxLTktMy0yNC05dC01Ni0yNy03Ny00Ni03My02NC01Ny04MmwtOSA2cTEwMy04NCAyMzQtODQgNzMgMCAxNDIgMjl6IG0tMTAzIDMzOXEtMTEgMjctMjkgNjItMTc0LTUyLTM3Ni01MiAwLTQgMC0xMiAwLTY5IDI0LTEzMnQ2OS0xMTJxMjggNDkgNjkgOTN0ODAgNjkgNzMgNDUgNTUgMjdsMjEgN3EyIDEgNyAydDcgM3ogbS01OSAxMThxLTY3IDExOS0xMzcgMjExLTc3LTM2LTEzMC0xMDR0LTcyLTE1MnExNjkgMCAzMzkgNDV6IG0zODEtMTc4cS0xMTcgMzMtMjI4IDE2IDQ5LTEzMyA3MS0yNjIgNjIgNDIgMTA0IDEwNnQ1MyAxNDB6IG0tNDQ5IDQxNHEtMSAwLTEtMSAwIDEgMSAxeiBtMzI5LTgxcS0xMDMgOTEtMjQxIDkxLTQzIDAtODctMTAgNzMtOTUgMTM3LTIxNCAzOSAxNSA3MyAzNHQ1NCAzNCAzNiAzMiAyMSAyM3ogbTEyNS0yNzFxLTIgMTI5LTgzIDIyOWwtMS0xcS01LTctMTEtMTN0LTI0LTI1LTQwLTM0LTU1LTM2LTc0LTM2cTE0LTMwIDI1LTUzIDEtMyAzLTEwdDUtOXEyMCAyIDQxIDR0NDEgMSAzOS0xIDM1LTIgMzItMyAyNy00IDIwLTMgMTQtM3ogbTYyLTRxMC0xMTctNTctMjE1dC0xNTYtMTU2LTIxNS01OC0yMTYgNTgtMTU1IDE1Ni01OCAyMTUgNTggMjE1IDE1NSAxNTYgMjE2IDU4IDIxNS01OCAxNTYtMTU2IDU3LTIxNXoiIGhvcml6LWFkdi14PSI4NTcuMSIgLz4KCjxnbHlwaCBnbHlwaC1uYW1lPSJza3lwZSIgdW5pY29kZT0iJiN4ZjE3ZTsiIGQ9Ik02NTUgMjU3cTAgMjgtMTEgNTF0LTI3IDM4LTQxIDI3LTQ2IDE5LTQ5IDEzbC01OCAxNHEtMTcgNC0yNSA2dC0xOSA2LTE3IDktOSAxMi00IDE2cTAgNDMgODAgNDMgMjQgMCA0My02dDMwLTE2IDIxLTE5IDIzLTE2IDI3LTdxMjYgMCA0MiAxOHQxNiA0M3EwIDMxLTMyIDU1dC03OSAzOC0xMDEgMTNxLTM4IDAtNzQtOXQtNjctMjYtNDktNDgtMTktNzJxMC0zNCAxMC02MHQzMi00MiA0NC0yNyA1OC0xOGw4MS0yMHE1MS0xMiA2My0yMCAxOC0xMSAxOC0zNCAwLTIxLTIzLTM2dC01OC0xNHEtMjkgMC01MSA5dC0zNyAyMi0yNSAyNS0yNiAyMS0zMCA5cS0yOCAwLTQyLTE3dC0xNC00MXEwLTUyIDY4LTg4dDE2Mi0zN3E0MSAwIDc4IDEwdDY5IDMwIDQ5IDUyIDE5IDc0eiBtMjAyLTEyMXEwLTg5LTYzLTE1MnQtMTUxLTYzcS03MyAwLTEzMSA0NS00My05LTgzLTktODAgMC0xNTMgMzF0LTEyNiA4NC04MyAxMjUtMzEgMTUzcTAgNDEgOSA4NC00NSA1OC00NSAxMzAgMCA4OSA2MyAxNTJ0MTUxIDYzcTczIDAgMTMxLTQ1IDQzIDkgODQgOSA3OSAwIDE1Mi0zMXQxMjYtODQgODQtMTI1IDMwLTE1M3EwLTQxLTgtODQgNDQtNTggNDQtMTMweiIgaG9yaXotYWR2LXg9Ijg1Ny4xIiAvPgoKPGdseXBoIGdseXBoLW5hbWU9InZrb250YWt0ZSIgdW5pY29kZT0iJiN4ZjE4OTsiIGQ9Ik0xMDcwIDU2MHExMy0zNi04NC0xNjQtMTMtMTgtMzYtNDgtMjItMjgtMzEtNDB0LTE3LTI3LTctMjQgOC0xOSAxOC0yNCAzMi0zMHEyLTEgMi0yIDc5LTczIDEwNy0xMjMgMi0zIDQtN3Q0LTE1LTEtMTktMTQtMTUtMzMtN2wtMTQyLTNxLTE0LTItMzIgM3QtMjkgMTNsLTExIDZxLTE3IDEyLTM5IDM2dC0zOCA0My0zNCAzMy0zMiA4cS0xIDAtNC0ydC0xMC04LTEyLTE2LTktMjktNC00NHEwLTgtMi0xNXQtNC0xMGwtMi0zcS0xMC0xMS0zMC0xMmgtNjRxLTQwLTMtODEgOXQtNzQgMjktNTcgMzctNDAgMzJsLTE0IDE0cS01IDUtMTUgMTd0LTQwIDUwLTU5IDg1LTY4IDExNy03MyAxNTJxLTQgOS00IDE1dDIgOWwyIDNxOSAxMSAzMiAxMWwxNTMgMXE3LTEgMTMtM3Q5LTVsMy0ycTktNiAxMy0xOCAxMS0yOCAyNi01N3QyMy00Nmw5LTE2cTE2LTM0IDMxLTU4dDI3LTM4IDIzLTIyIDE5LTggMTUgM3ExIDEgMyAzdDcgMTIgNyAyNiA1IDQ2IDAgNjlxLTEgMjMtNSA0MXQtNyAyNmwtNCA2cS0xNCAxOS00NyAyNC04IDIgMyAxNCA4IDEwIDIxIDE3IDI5IDE0IDEzMyAxMyA0Ni0xIDc1LTcgMTItMyAxOS04dDEyLTEzIDUtMTggMi0yNSAwLTMxLTItNDAgMC00NnEwLTYtMS0yM3QwLTI3IDItMjIgNi0yMiAxMy0xNHE0LTEgOS0ydDE1IDYgMjEgMTkgMjkgMzggMzggNjBxMzMgNTggNjAgMTI1IDIgNiA1IDEwdDYgNmwzIDIgMiAxdDggMiAxMSAwbDE2MCAxcTIyIDMgMzYtMXQxNy0xMHoiIGhvcml6LWFkdi14PSIxMDcxLjQiIC8+Cgo8Z2x5cGggZ2x5cGgtbmFtZT0ic2xhY2siIHVuaWNvZGU9IiYjeGYxOTg7IiBkPSJNODQ4IDQxN3EzNCAwIDU3LTIzdDI0LTU2cTAtNTQtNTItNzNsLTk2LTMzIDMxLTkzcTQtMTIgNC0yNiAwLTMzLTI0LTU3dC01Ni0yNHEtMjYgMC00OCAxNXQtMjkgNDBsLTMxIDkyLTE3My01OSAzMS05MXE0LTE0IDQtMjcgMC0zMy0yMy01N3QtNTctMjRxLTI3IDAtNDggMTV0LTI5IDQxbC0zMSA5MS04NS0zMHEtMTctNS0yOC01LTM0IDAtNTcgMjJ0LTIzIDU3cTAgMjYgMTYgNDd0NDAgMzBsODcgMjktNTkgMTc1LTg3LTMwcS0xNC01LTI3LTUtMzMgMC01NiAyM3QtMjMgNTZxMCAyNiAxNSA0OHQ0MCAyOWw4OCAzMC0zMCA4OHEtNCAxNC00IDI3IDAgMzMgMjMgNTd0NTcgMjRxMjYgMCA0OC0xNnQyOS00MGwzMC04OSAxNzMgNTktMzAgODlxLTQgMTMtNCAyNiAwIDMzIDIzIDU3dDU3IDI0cTI2IDAgNDgtMTV0MzAtNDBsMjktOTAgOTEgMzFxMTEgMyAyNCAzIDMzIDAgNTctMjJ0MjQtNTVxMC0yNS0xNy00NXQtNDEtMjlsLTg4LTMwIDU5LTE3NyA5MSAzMnExMyA0IDI2IDR6IG0tNDQzLTE0NmwxNzMgNTgtNTkgMTc2LTE3My02MHoiIGhvcml6LWFkdi14PSI5MjguNiIgLz4KCjxnbHlwaCBnbHlwaC1uYW1lPSJwYXBlci1wbGFuZSIgdW5pY29kZT0iJiN4ZjFkODsiIGQ9Ik05ODQgODQ0cTE5LTEzIDE1LTM2bC0xNDItODU3cS0zLTE2LTE4LTI1LTgtNS0xOC01LTYgMC0xMyAzbC0yNTMgMTA0LTEzNS0xNjVxLTEwLTEzLTI3LTEzLTcgMC0xMiAyLTExIDQtMTcgMTN0LTcgMjF2MTk1bDQ4MiA1OTAtNTk2LTUxNi0yMjEgOTFxLTIwIDgtMjIgMzAtMSAyMyAxOCAzM2w5MjggNTM2cTkgNSAxOCA1IDExIDAgMjAtNnoiIGhvcml6LWFkdi14PSIxMDAwIiAvPgoKPGdseXBoIGdseXBoLW5hbWU9IndoYXRzYXBwIiB1bmljb2RlPSImI3hmMjMyOyIgZD0iTTU1MCAzMDdxNyAwIDU0LTI1dDUwLTMwcTEtMiAxLTggMC0xOC05LTQyLTktMjItNDAtMzd0LTU3LTE1cS0zMiAwLTEwNiAzNS01NSAyNS05NSA2NnQtODIgMTAzcS00MSA2MC00MCAxMDh2NXEyIDUwIDQxIDg4IDE0IDEyIDI5IDEyIDQgMCAxMC0xdDExLTFxMTEgMCAxNS0zdDgtMTZxNS0xMSAxOS00OXQxNC00MXEwLTEyLTE5LTMzdC0yMC0yNnEwLTMgMy04IDE5LTQxIDU3LTc2IDMxLTMwIDg0LTU3IDctNCAxMy00IDggMCAzMCAyN3QyOSAyOHogbS0xMTQtMjk2cTcxIDAgMTM2IDI4dDExMiA3NCA3NSAxMTIgMjggMTM2LTI4IDEzNi03NSAxMTItMTEyIDc1LTEzNiAyOC0xMzUtMjgtMTEyLTc1LTc1LTExMi0yOC0xMzZxMC0xMTMgNjctMjA1bC00NC0xMzAgMTM1IDQzcTg4LTU4IDE5Mi01OHogbTAgNzcxcTg2IDAgMTY0LTM0dDEzNC04OSA5MC0xMzUgMzMtMTYzLTMzLTE2My05MC0xMzQtMTM0LTkwLTE2NC0zNHEtMTA4IDAtMjAzIDUzbC0yMzMtNzUgNzYgMjI2cS02MCA5OS02MCAyMTcgMCA4NiAzMyAxNjN0OTAgMTM1IDEzNCA4OSAxNjMgMzR6IiBob3Jpei1hZHYteD0iODU3LjEiIC8+Cgo8Z2x5cGggZ2x5cGgtbmFtZT0ib2Rub2tsYXNzbmlraSIgdW5pY29kZT0iJiN4ZjI2MzsiIGQ9Ik0zNTcgMzQ0cS0xMDUgMC0xNzkgNzR0LTc0IDE3OXEwIDEwNSA3NCAxNzl0MTc5IDc0IDE3OS03NCA3NS0xNzlxMC0xMDUtNzUtMTc5dC0xNzktNzR6IG0wIDM3OHEtNTEgMC04OC0zN3QtMzYtODhxMC01MiAzNi04OHQ4OC0zNyA4OCAzNyAzNyA4OHEwIDUyLTM3IDg4dC04OCAzN3ogbTI5Mi00MDlxNy0xNSA4LTI3dC0yLTIzLTE1LTIxLTI0LTIxLTM0LTIzcS02NC00MS0xNzYtNTNsNDEtNDAgMTQ5LTE0OXExNy0xNyAxNy00MXQtMTctNDFsLTctN3EtMTctMTctNDEtMTd0LTQxIDE3cS0zOCAzOC0xNDkgMTQ5bC0xNDktMTQ5cS0xOC0xNy00Mi0xN3QtNDAgMTdsLTcgN3EtMTcgMTctMTcgNDF0MTcgNDFsMTQ5IDE0OSA0MCA0MHEtMTEzIDEyLTE3NyA1My0yMSAxNC0zNCAyM3QtMjQgMjEtMTUgMjEtMiAyMyA4IDI3cTYgMTEgMTYgMjB0MjMgMTIgMzItMSAzNi0yMHEzLTIgOC02dDI0LTEzIDM5LTE3IDUxLTE0IDYzLTZxNTEgMCA5NyAxNHQ2NyAyOGwyMSAxNHExOSAxNSAzNyAyMHQzMSAxIDIzLTEyIDE2LTIweiIgaG9yaXotYWR2LXg9IjcxNC4zIiAvPgo8L2ZvbnQ+CjwvZGVmcz4KPC9zdmc+#fontello) format("svg");font-weight:400;font-style:normal}[class*=" icon-"]:before,[class^=icon-]:before{font-family:fontello;font-style:normal;font-weight:400;speak:none;display:inline-block;text-decoration:inherit;width:1em;margin-right:.2em;text-align:center;-webkit-font-feature-settings:normal;font-feature-settings:normal;font-variant:normal;text-transform:none;line-height:1em;margin-left:.2em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.icon-mail:before{content:"\E800"}.icon-twitter:before{content:"\F099"}.icon-facebook:before{content:"\F09A"}.icon-rss:before{content:"\F09E"}.icon-linkedin:before{content:"\F0E1"}.icon-github:before{content:"\F113"}.icon-stackoverflow:before{content:"\F16C"}.icon-instagram:before{content:"\F16D"}.icon-tumblr:before{content:"\F173"}.icon-dribbble:before{content:"\F17D"}.icon-skype:before{content:"\F17E"}.icon-vkontakte:before{content:"\F189"}.icon-slack:before{content:"\F198"}.icon-paper-plane:before{content:"\F1D8"}.icon-whatsapp:before{content:"\F232"}.icon-odnoklassniki:before{content:"\F263"}.sidebar{width:100%}.sidebar__inner{position:relative;padding:1.5625rem 1.25rem 0}.sidebar__author-photo{display:inline-block;margin-bottom:0;border-radius:50%;background-clip:padding-box}.sidebar__author-title{font-size:2rem;font-weight:500;line-height:1.82813rem;margin:.8125rem 0}.sidebar__author-title-link,.sidebar__author-title-link:focus,.sidebar__author-title-link:hover{color:#222}.sidebar__author-subtitle{color:#888;line-height:1.625rem;margin-bottom:1.625rem}.sidebar__copyright{color:#b6b6b6;font-size:.875rem}@media screen and (min-width:685px){.sidebar{width:calc(99.9% * 5/12 - 1.09375rem);max-width:15.625rem}.sidebar:nth-child(1n){float:left;margin-right:1.875rem;clear:none}.sidebar:last-child{margin-right:0}.sidebar:nth-child(12n){margin-right:0;float:right}.sidebar:nth-child(12n+1){clear:both}.sidebar__inner{padding:1.875rem 1.25rem 0}.sidebar__inner:after{background:#e6e6e6;background:linear-gradient(180deg,#e6e6e6 0,#e6e6e6 48%,#fff);position:absolute;content:"";width:.0625rem;height:540px;top:30px;right:-10px;bottom:0}}@media screen and (min-width:960px){.sidebar{width:calc(99.9% * 1/3 - 1.25rem);max-width:15.625rem}.sidebar:nth-child(1n){float:left;margin-right:1.875rem;clear:none}.sidebar:last-child{margin-right:0}.sidebar:nth-child(3n){margin-right:0;float:right}.sidebar:nth-child(3n+1){clear:both}}.page{margin-bottom:3.25rem}.page__title{font-size:2.5rem;font-weight:500;line-height:3.25rem;margin-top:0;margin-bottom:2.35625rem}.page__body{font-size:1rem;line-height:1.625rem;margin:0 0 1.625rem}.post-single__inner{max-width:59.0625rem;padding:0 .9375rem;margin:0 auto}.post-single__title{font-size:2rem;max-width:40rem;margin:1.625rem auto 0;font-weight:600;text-align:center;line-height:2.68125rem}.post-single__body figure{margin-bottom:1.625rem}.post-single__body figure blockquote{font-style:italic;text-align:center;margin-top:0;padding:1.625rem 0}.post-single__body figure blockquote p{max-width:40rem;font-size:1.6817rem;margin-top:0;margin-bottom:1.625rem;line-height:2.4375rem}.post-single__body a{text-decoration:underline}.post-single__body .gatsby-highlight{max-width:40rem;margin-left:.9375rem;margin-right:.9375rem;margin-bottom:1.625rem}.post-single__body :not(div){max-width:40rem;margin-left:auto;margin-right:auto}.post-single__footer{max-width:40rem;margin:1.625rem .9375rem 3.25rem;line-height:1.625rem}.post-single__footer-text a{text-decoration:underline}.post-single__date{max-width:40rem;margin-left:auto;margin-right:auto}.post-single__tags{margin-bottom:.8125rem}.post-single__tags-list{list-style:none;margin:0 -.3125rem;padding:0}.post-single__tags-list-item{display:inline-block;margin:.625rem .3125rem}.post-single__tags-list-item-link{background:#ebebeb;text-decoration:none;border:0;border-radius:.1875rem;color:#555;line-height:1.625;padding:.5rem 1rem}.post-single__tags-list-item-link:focus,.post-single__tags-list-item-link:hover{color:#222;background:#dfdfdf;border:0}.post-single__home-button{display:block;margin-left:auto;margin-right:auto;max-width:5.625rem;font-size:1rem;padding:0 1rem;height:35px;line-height:2.1875rem;text-align:center;color:#555;background:#ebebeb;font-weight:400;border-radius:.1875rem;margin-top:1.625rem}.post-single__home-button:focus,.post-single__home-button:hover{color:#222;background:#dfdfdf;border:0}@media screen and (min-width:685px){.post-single__body .gatsby-highlight,.post-single__footer{margin-left:auto;margin-right:auto}}@media screen and (min-width:960px){.post-single__inner{padding:0}.post-single__title{font-size:3rem;line-height:3.65625rem;margin-top:3.65625rem;margin-bottom:2.4375rem}.post-single__body,.post-single__body p{font-size:1.125rem;line-height:1.82813rem;margin-bottom:1.82813rem}.post-single__home-button{position:fixed;max-width:auto;margin:0;top:30px;left:30px}}.post{margin-bottom:2.03125rem}.post:last-child,.post__title{margin-bottom:.8125rem}.post__title{font-size:1.6875rem;line-height:2.4375rem;margin-top:0}.post__title-link{color:#222}.post__title-link:focus,.post__title-link:hover{color:#222;border-bottom:1px solid #222}.post__description{font-size:1rem;line-height:1.625rem;margin-bottom:1.21875rem}.post__meta-time{font-size:.875rem;color:#222;font-weight:500;text-transform:uppercase}.post__meta-divider{margin:0 .3125rem}.post__meta-category-link{font-size:.875rem;color:#f7a046;font-weight:500;text-transform:uppercase}.post__meta-category-link:focus,.post__meta-category-link:hover{color:#5d93ff}.post__readmore{font-size:1rem;color:#5d93ff}.post__readmore:focus,.post__readmore:hover{color:#5d93ff;border-bottom:1px solid #5d93ff}</style></head><body><div id="___gatsby"><div class="layout" data-reactroot=""><div><div><div><a class="post-single__home-button" href="/">All Articles</a></div><div class="post-single"><div class="post-single__inner"><h1 class="post-single__title">Constructing a cyclical colormap</h1><div class="post-single__body"><div><p>In my last <a href="/blog/2018/demon/">post</a> I gave the option of using a
+variety of different colormaps.  The reason is because historically
+I’ve always favored plain grayscale colormaps.  I’ve always found that
+“color” colormaps grossly distort my data <em>and</em> make it considerably
+more difficult to accurately identify features.  But a cyclical
+cellular automaton is, well, cyclic.  I can, of course, construct a
+cyclic grayscale map — and I did — but when you do so there is a
+symmetry that it would be nice to break.</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colorwheel type="cyclic-grayscale"></blog-colorwheel></p>
+<p><em>This looks like a perfectly decent colormap to me, the only problem
+is how do I differentiate values on the left side of the wheel from
+values on the right side?  Luminosity alone is not enough, we’re going
+to need something else to vary.</em></p>
+<p>This symmetry could certainly be broken with color, for example with a
+cyclical version of the infamous rainbow map.  The classic way to generate
+it is to vary the channel intensities such that R, G, and B are fully
+on for one third of the range, with the other colors either ramping up
+or ramping down.</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-rgb-plot></blog-colormap-rgb-plot></p>
+<p><em>RGB channel intensities for the classic rainbow map.</em></p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colorwheel type="rainbow"></blog-colorwheel></p>
+<p><em>The classic rainbow colormap rotates through all fully saturated
+colors.</em></p>
+<p>Because all of the colors in the classic rainbow map are fully
+saturated the intensity of the colormap peaks at the secondary colors
+yellow, cyan, and purple.  At all three locations two of the RGB
+channels are at their maximum values, and the result is that smooth
+functions will look like they have peaks at the secondary colors.
+This is one of the reasons I’ve hated this colormap through the years.
+Another closely related issue is that when I look at this map, I see
+six colors: red, yellow, green, cyan, blue and purple.  But they
+aren’t taking up approximately equal parts of the map.  There is a
+large red section, that transitions into a very narrow yellow section,
+followed by a large green section, followed by a narrow cyan section,
+and so on.</p>
+<p>One possible way to fix these deficiencies in the rainbow map would be
+to smooth out the transitions into and away from the secondary colors.
+As shown below, one way would be to ramp up the guns with a sine function
+instead of linearly.</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-rgb-plot trans="sin"></blog-colormap-rgb-plot></p>
+<p><em>One way to “improve” the classic rainbow map is to smooth out the transition
+into and out of the secondary colors yellow, cyan, and purple.</em></p>
+<p>Let’s call this sine ramp up “David’s kludgy rainbow”, because I employ
+this kludge whenever I’m in a situation where I actually need a
+colormap.  Of course, after seeing the results I always discard the
+“color” colormap and find some way to make it work with a grayscale.</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colorwheel type="kludge-rainbow"></blog-colorwheel></p>
+<p><em>My kludgy “fix” to the rainbow colormap.  The apparent spikes at the
+secondary colors are gone, and the size of the six “colors” are more
+equal.  But in practice it doesn’t really work any better than the
+original rainbow and is an object lesson that amateurs should stay
+away from colormap design.  It is however, the rainbow map used in the
+Demon visualization.</em></p>
+<p>A lot of ink has been spilt explaining exactly how
+<a href="http://jakevdp.github.io/blog/2014/10/16/how-bad-is-your-colormap/">bad</a>
+the <a href="https://www.climate-lab-book.ac.uk/2014/end-of-the-rainbow/">rainbow</a> colormap
+really is, so it’s perhaps not too surprising that I aggressively
+dislike it.  Even better, since I last seriously considered using a
+“color” colormap a considerable amount of ink has been spilt
+describing better ways to construct them.  <a href="https://www.vis4.net/blog/2013/09/mastering-multi-hued-color-scales/">Many</a>
+end up pointing back to Cynthia Brewer’s
+<a href="http://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3">colorbrewer</a>.
+The basic idea behind most proposals is to assert that the problem
+with the rainbow map (or other traditional colormaps like Matlab’s Jet
+map) is that euclidean distance in RGB space does not match human
+perception.  This is obviously true looking at the rainbow map — each
+point is separated by an equal distance in RGB space yet perceptually
+we transition through the secondary colors much more quickly than others.</p>
+<p>The proposed solution is to produce maps with equidistant spacing in
+some colorspace designed to match human perceptions.  Psycophysicists
+have spent decades producing such a space, <a href="https://en.wikipedia.org/wiki/Lab_color_space#CIELAB">CIE
+Lab</a>.  So if we
+take paths through CIE Lab (or its polar variant HCL) we should end up
+with perceptually uniform colormaps — meaning that each step on the
+colormap will be perceived to be the same amount of different as any
+other step.  But I’m still not convinced that being perceptually
+uniform also means that they are generally suitable for extracting
+unbiased quantitative information.</p>
+<p>But whether or not they are actually a good idea, d3 now has
+<a href="https://github.com/d3/d3-scale-chromatic">scale-chromatic</a> with a
+couple of dozen new color scales, all of which look good, most of
+which are constructed to be perceptually uniform, and several of which
+(the viridis, inferno, magma, and plasma maps) seem to have been very
+carefully designed.  There is even a cyclical map in scale-chromatic.</p>
+<p>The pressing question for me is:  how do I work out if any of these
+colormaps is actually any good?  Is there anything that can be done much
+beyond drawing a heightmap of the world and saying, “yep, looks good”?
+What we need are test images with properties that enable us to objectively
+scrutinize a colormap.  If we step away from cyclical colormaps for the
+moment, <a href="https://arxiv.org/abs/1509.03700">Kovesi (2015)</a> provides us
+with just such an image.</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="grayscale">
+</blog-colormap-test-image></p>
+<p><em>Kovesi’s image to evaluate colormaps.  Horizontally it’s a linear
+ramp from 0 to 1, with a sine wave superimposed on top of it.  The sine
+wave has a period of 8 pixels, and a peak-to-value amplitude of 0.1 at
+the top of the image.  Vertically, the amplitude of the sine wave in
+linearly ramped down to zero by the bottom of the image.</em></p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="rainbow">
+</blog-colormap-test-image></p>
+<p><em>Rainbow colormap applied to Kovesi’s image.  And now we’ve got some
+objective evidence to back up our assertion that the rainbow colormap
+is rubbish.</em></p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="kludge-rainbow">
+</blog-colormap-test-image></p>
+<p><em>The kludgy rainbow.  It’s a little better, but it’s still apparent that
+it’s not at all suitable for quantitative visualization.</em></p>
+<p>Kovesi’s test image is useful for a couple of reasons.  As the
+amplitude of the sine wave perturbation decreases at lower rows, it
+allows us to immediately evaluate how sensitive the color map is to
+small amplitude features.  More importantly, it allows us to determine
+if it is equally sensitive to small amplitude features at all points
+in the map.  For example, the large green area in the rainbow maps
+where most humans have trouble distinguishing small amplitude features
+is readily apparent.</p>
+<p>The rapid oscillation of the sine wave is also designed to evaluate
+how well a map works at highlighting features on small spatial scales.
+This is important, because there is some evidence that perception of
+color is subtly different on small spatial scales compared to large
+ones.  See Kovesi’s <a href="https://arxiv.org/abs/1509.03700">paper</a> for background
+and references to the existing literature on this.</p>
+<h2>Are there colormaps that actually work?</h2>
+<p>So far we’ve worked out that the classic grayscale map is objectively good,
+and that the classic rainbow map is not.  The next obvious question would
+be, are there “color” colormaps that are also objectively good?</p>
+<p>Not surprisingly, most of the d3 colormaps are excellent.  At the bottom of
+this page there is an interactive explorer you can use to view all of the
+colormaps in d3-scale-chromatic (as well as the other colormaps discussed
+in this post).</p>
+<p>A few that caught my eye are:</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="bugn">
+</blog-colormap-test-image></p>
+<p><em>BuGn colormap.  One of a large number of colormaps that smoothly transition
+from one color to another.</em></p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="inferno">
+</blog-colormap-test-image></p>
+<p><em>Inferno colormap.  Part of a set including the viridis, magma and plasma
+maps, inferno was carefully constructed to be perceptually uniform and to
+present a continuous change in lightness.  While more “colorful” than simple
+maps that transition from one color to another, the overall impression seems
+dominated by the continuous ramp up in lightness.</em></p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="cubehelix">
+</blog-colormap-test-image></p>
+<p><em>CubeHelix colormap.  This map was designed be both a uniform ramp in
+lightness, and to contain a large number of hues.  As a result of the
+linear ramp in lightness, it’s quite good at distinguishing small features
+in the image.  Due to the large number of hues, it does seem to break into
+sections — dark, green orange, purple, and blue.</em></p>
+<p>Even among the d3 colormaps, I’m not keen on maps with a large number
+of hues even if they perform well on the test image.  The reason is
+that in my own perception, I tend to split hues into different
+categories.  I see shades of gray, but it’s all gray, which is good
+for visualizing quantitative data.  With the multi-hued colormap such
+as CubeHelix for example, I see a sequence of separate hues, and I
+perceive the different hues to by qualitatively different.</p>
+<p>One way to visualize this is with another test image.  In this case I’m
+displaying an exponentially damped sine wave —  the result is a series
+of peaks and valleys where the peaks each summit at a different level.</p>
+<p>In grayscale or simple transition between two colors it looks like</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="expsin" cmap="grayscale">
+</blog-colormap-test-image></p>
+<p><em>Exponentially damped sine wave in grayscale.</em></p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="expsin" cmap="bugn">
+</blog-colormap-test-image></p>
+<p><em>Exponentially damped sine wave with the BuGn map from
+d3-scale-chromatic.  The peaks far from center seem a bit more visible
+than they do in grayscale, but this is just due to the fact that BuGn
+is an inverted map, going from light to dark — as you look through
+this page you’ll notice that small features always seem a bit more
+discernible on the light part of the maps.</em></p>
+<p>With multi-hued colormaps however, different rings seem to be qualitatively
+different.  This effect is strongest with the CubeHelix colormap</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="expsin" cmap="cubehelix">
+</blog-colormap-test-image></p>
+<p><em>Exponentially damped sine with the d3-scale-chromatic CubeHelix colormap.
+Note that the inner circles each seem to be a qualitatively different color.</em></p>
+<p>d3-scale-chromatic also has a cyclical colormap which they call a Rainbow map.  It is designed to be significantly more pleasant than either the
+classic rainbow or my own kludgy rainbow.  It does reasonable well for discerning small features.  The flat spots, however, are more pronounced than for most
+of the good linear maps.</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="d3rainbow">
+</blog-colormap-test-image></p>
+<p><em>d3 rainbow — the cyclical colormap provided by scale-chromatic.</em></p>
+<h2>What’s the difference between good and bad colormaps?</h2>
+<p>Before we circle around to constructing a nice cyclic colormap, I think we
+need a better grip on why some colormaps work well for feature discrimination,
+and some do not.  Consider the following three maps:</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="rainbow">
+</blog-colormap-test-image>
+<br/>
+<noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="inferno">
+</blog-colormap-test-image>
+<br/>
+<noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="constant-lightness">
+</blog-colormap-test-image></p>
+<p>The top map is the classic rainbow, the middle map is the d3 inferno
+scale, and the bottom map is a colorwheel from the HCL space (polar
+variant of CIELAB) with constant chroma and luminance.  I’m calling
+the bottom map “constant lightness”.</p>
+<p>It seems to be generally accepted that the rainbow map is terrible
+because it is not perceptually uniform.  However, the constant
+lightness map <em>is</em> perceptually uniform and seems nearly as bad — if
+not worse — than the rainbow map.  What gives?  Well, lets look
+again, this time with a color bar below each map showing the grayscale
+version of the map generated by taking the L component of each color
+in CIELAB space.</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="rainbow" lmap="true">
+</blog-colormap-test-image>
+<br/>
+<noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="inferno" lmap="true">
+</blog-colormap-test-image>
+<br/>
+<noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="constant-lightness" lmap="true">
+</blog-colormap-test-image></p>
+<p>To my eyes, it sure looks like I am able to make out small scale features
+when the luminosity of the map is changing, and when the luminosity is
+not changing, different hues are doing little for me.  This is particularly
+evident in the rainbow map, where the flat parts of the luminosity curve
+correspond exactly with the parts of the test image with poor discrimination
+ability.</p>
+<p>I take from this that while using a perceptually uniform map might be
+nice, it’s not actually all that important.  It does seem to be
+important, however, for the map to have a nice monotonically lightness
+curve.</p>
+<p>I’m not the first to have come to this conclusion.  Kovesi emphasizes
+it as well in his paper, and Mark Abeln has an incredible <a href="http://therefractedlight.blogspot.com/2010/06/luminance-is-more-important-than-color.html">demo</a>
+of the same image with luminance removed, and with color removed.  You
+want to look at it.</p>
+<h2>Let’s construct a cyclic colormap already</h2>
+<p>It’s been a bit of a journey, but everything is in place to construct a nice
+unconfusing cyclical colormap with a good ability to discriminate small features.</p>
+<p>We want:</p>
+<ol>
+<li>A simple lightness profile</li>
+<li>No more than two colors</li>
+</ol>
+<p>The simple lightness profile will ensure our ability to discriminate small
+features.  We need at least two colors to break the symmetry of a cyclical
+grayscale map.  If we keep it exactly at two, we can minimize the tendency
+to view different colors as qualitatively different things.</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-test-image type="rake" cmap="cyclic-demon" lmap="true">
+</blog-colormap-test-image></p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colorwheel type="cyclic-demon"></blog-colorwheel></p>
+<p>So this is my super simple cyclical colormap.  In lightness, it’s a linear
+ramp from black to white and then back to black.  I add a little red and
+blue to distinguish the left side of the cycle from the right side of the cycle.</p>
+<p>It’s not the prettiest map (the d3 rainbow map is arguably more attractive)
+but it fulfills my primary objective of being able to discriminate small features are all parts of the scale.  So I kind of like it.  And that’s why is the
+default colormap for my <a href="/blog/2018/demon">Cyclic Cellular Automaton</a></p>
+<p>To generate the actual scale, I just use
+<a href="https://github.com/gka/chroma.js/">chroma.js</a>.  Applying
+<code>.correctLightness()</code> to the scales ensures a uniform ramp
+in lightness as the scale transitions between colors.  So I just need
+to create two scales and then stitch them together, one going from black to
+white via red and another scale that goes back by way of blue.</p>
+<div class="gatsby-highlight">
+      <pre class="language-javascript"><code class="language-javascript">    <span class="token keyword">this</span><span class="token punctuation">.</span>scale1 <span class="token operator">=</span> chroma<span class="token punctuation">.</span><span class="token function">scale</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">&#x27;black&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;red&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;white&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">correctLightness</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>scale2 <span class="token operator">=</span> chroma<span class="token punctuation">.</span><span class="token function">scale</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">&#x27;black&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;blue&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;white&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">correctLightness</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+      </div>
+<p>I’ll leave you with a little widget you can use to select any of the colormaps
+discussed in this post.</p>
+<p><noscript> NO JAVASCRIPT — NO COLORMAP (sorry)</noscript>
+<blog-colormap-selector></blog-colormap-selector></p>
+<p>All of the code used to generate the images on this page are in a github
+<a href="https://github.com/dkirkman/ws-colormap">repo</a></p></div></div><div class="post-single__date"><em>Published <!-- -->16 May 2018</em></div></div><div class="post-single__footer"><div class="post-single__tags"><ul class="post-single__tags-list"><li class="post-single__tags-list-item"><a class="post-single__tags-list-item-link" href="/blog/tags/interactive-computation/">interactive computation</a></li><li class="post-single__tags-list-item"><a class="post-single__tags-list-item-link" href="/blog/tags/data-science/">data science</a></li></ul></div><hr/><p class="post-single__footer-text">Comments?  I&#x27;d love to hear them.  Send them to <a href="mailto:dkirkman@gmail.com">dkirkman@gmail.com</a><br/><p class="sidebar__copyright">Copyright © 2018 David Kirkman. All rights reserved.</p></p><div></div></div></div></div></div></div></div><script id="webpack-manifest">/*<![CDATA[*/window.webpackManifest={"231608221292675":"app-7a9ea939469d02a3c8ba.js","99219681209289":"component---node-modules-gatsby-plugin-offline-app-shell-js-5c4c5a0f7af9dc69d6d7.js","11305920230724":"component---src-templates-page-template-jsx-994fa15cdac2f9049e27.js","108009296967943":"component---src-templates-post-template-jsx-5e03e8d137762c9d1456.js","2638498282051":"component---src-templates-tag-template-jsx-06fbd3473ea34e10770a.js","90179704293519":"component---src-templates-category-template-jsx-cf1c8b990648253d5738.js","183328146348521":"component---src-pages-404-jsx-3d0441dd1a11b2f3a35b.js","112012376896560":"component---src-pages-blog-categories-jsx-636711a7777a582d73e4.js","4220841425358":"component---src-pages-blog-index-jsx-75a4c7799d477287fbb2.js","195694832364976":"component---src-pages-blog-tags-jsx-1984f202b3aca7702e41.js","213534597649335":"component---src-pages-index-jsx-129a40718ebac028a017.js","60335399758886":"path----557518bd178906f8d58a.js","210333531512890":"path---offline-plugin-app-shell-fallback-a0e39f21c11f6a62c5ab.js","273950069227526":"path---about-b20b4e4015d27b24abf2.js","66294210697935":"path---blog-2018-demon-4582cba0befa895ba639.js","89040563376891":"path---blog-tags-interactive-computation-7e7e4f7ca96d546c339f.js","216920128278311":"path---blog-tags-cellular-automata-5c7d768bb61791a79beb.js","142963898409560":"path---blog-categories-visualization-c47ac4c8009c2af48fe3.js","25236774834544":"path---blog-2018-cyclical-colormaps-e1be1ea867886c7bdc04.js","197009827592903":"path---blog-tags-data-science-8cb4ac927e1bd20858f5.js","233755054307173":"path---blog-2018-munker-illusion-4066cdaa2cf73224ad09.js","84371913337507":"path---blog-tags-illusions-e581e11a89d8480743fa.js","61745982507851":"path---blog-tags-psychophysics-e19e144fb2716b7ffc3f.js","254022195166212":"path---404-b68206950856f877b606.js","260099070806502":"path---blog-categories-8341b1bfec8a3886c71f.js","49683490770531":"path---blog-89ebf9dc6c32ad4b33ca.js","186779927453684":"path---blog-tags-382e723345fd1dc762fc.js","142629428675168":"path---index-89ebf9dc6c32ad4b33ca.js","178698757827068":"path---404-html-b68206950856f877b606.js","79611799117203":"component---src-layouts-index-jsx-0dee3cdcbbfa86b7e891.js"}/*]]>*/</script><script>
+            
+  
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', 'UA-3204116-4', 'auto');
+      }
+      </script><script>/*<![CDATA[*/!function(e,t,r){function n(){for(;d[0]&&"loaded"==d[0][f];)c=d.shift(),c[o]=!i.parentNode.insertBefore(c,i)}for(var s,a,c,d=[],i=e.scripts[0],o="onreadystatechange",f="readyState";s=r.shift();)a=e.createElement(t),"async"in i?(a.async=!1,e.head.appendChild(a)):i[f]?(d.push(a),a[o]=n):e.write("<"+t+' src="'+s+'" defer></'+t+">"),a.src=s}(document,"script",["/commons-2a1ac2ae0f864e4cea9b.js","/app-7a9ea939469d02a3c8ba.js","/path---blog-2018-cyclical-colormaps-e1be1ea867886c7bdc04.js","/component---src-templates-post-template-jsx-5e03e8d137762c9d1456.js","/component---src-layouts-index-jsx-0dee3cdcbbfa86b7e891.js"])/*]]>*/</script></body></html>

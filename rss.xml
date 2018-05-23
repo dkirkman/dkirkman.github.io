@@ -1,4 +1,82 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Mon, 21 May 2018 17:10:41 GMT</lastBuildDate><item><title><![CDATA[Constructing a cyclical colormap]]></title><description><![CDATA[Designing an effective cyclical colormap is a bit tricky.  Can the recent trend of using perceptually uniform colorspaces produce a cyclical map that is both compelling and capable of discerning small features?]]></description><link>https://wildsilicon.com/blog/articles/2018/cyclical-colormaps/</link><guid isPermaLink="false">https://wildsilicon.com/blog/articles/2018/cyclical-colormaps/</guid><pubDate>Thu, 17 May 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In my last &lt;a href=&quot;/blog/2018/demon&quot;&gt;post&lt;/a&gt; I gave the option of using a
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Wed, 23 May 2018 03:55:37 GMT</lastBuildDate><item><title><![CDATA[Psychophysics is fun:  the Munker-White illusion]]></title><description><![CDATA[Interactive demonstration that a single color can be perceived quite differently depending on what it's surrounded with.]]></description><link>https://wildsilicon.com/blog/2018/munker-illusion/</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/munker-illusion/</guid><pubDate>Wed, 23 May 2018 00:00:00 GMT</pubDate><content:encoded>&lt;noscript&gt;
+Munker Illusion requires javascript (sorry!)
+&lt;/noscript&gt;
+&lt;blog-munker-illusion background=&quot;blue&quot; bar=&quot;yellow&quot; grating=&quot;red&quot;&gt;
+&lt;/blog-munker-illusion&gt;
+&lt;p&gt;While writing my last &lt;a href=&quot;/blog/2018/cyclical-colormaps/&quot;&gt;post&lt;/a&gt;
+I was reminded of two interesting aspects of psychophysics: color
+perception depends to a large degree on surrounding colors, and color
+perception is different on large and small spatial scales.  These
+effects combined are the basis of the Munker-White illusion.&lt;/p&gt;
+&lt;p&gt;In the image/widget above there are only three colors.  The background
+is a alternating series of yellow and then blue constant width
+stripes.  Over the background are two red gratings — the width of the
+gratings exactly matches the width of the background stripes.  On the
+left, the grating is aligned such that it obscures the yellow stripes
+and allows the blue stripes to shine through.  On the right, the
+grating is aligned to obscure the blue stripes.&lt;/p&gt;
+&lt;p&gt;With the initial parameters, most people will perceive the colors of
+the two red gratings too be distinctly different.  To me it looks
+redish, perhaps a bit magentaish on the left, and orangish on the
+right.  The two gratings, of course, have identical colors.  To see
+this, play with the background slider and take the background to
+white.  If you don’t believe me, the
+&lt;a href=&quot;https://github.com/dkirkman/ws-munker-illusion&quot;&gt;code&lt;/a&gt; for the
+illusion is on github.&lt;/p&gt;
+&lt;p&gt;What is going on?  At first glance, you might imagine that somehow the
+colors are combining — the blue and red combine to make purple and
+the red and yellow combine to make orange.  If you make the stripes
+small enough, that is exactly what is going on.  In the widget above
+the smallest you can make the stripes is one pixel, which depending on
+the DPI and viewing distance to your display may be enough.  But even
+if your eyesight is sufficient to resolve the 1 pixel stripes,
+combining colors (e.g. red and green to make yellow) is exactly what
+is going on at the subpixel level of your display.&lt;/p&gt;
+&lt;p&gt;But what’s going on in this illusion is different: the color shift
+occurs even when the stripes are quite wide.  And the magnitude of the
+color shift depends on how wide the stripes are — if you use the
+slider to adjust the stripes to be wide enough the color shift will
+disappear entirely.  Adjust the strip width to a point where the
+stripes are as wide as possible but you still see a color shift.  The
+trippy thing is that color shift is uniform across the red grating
+elements: it’s not like it is more pronounced near the edges.&lt;/p&gt;
+&lt;p&gt;Again, what’s going on here?  It turns out that nobody really knows.
+Wikipedia has
+&lt;a href=&quot;https://en.wikipedia.org/wiki/White%27s_illusion&quot;&gt;explanations&lt;/a&gt; of
+what’s &lt;em&gt;not&lt;/em&gt; going on and several theories about what &lt;em&gt;might&lt;/em&gt; be a
+correct explanation.  But at the moment, this is an unsolved problem.&lt;/p&gt;
+&lt;p&gt;Perception is tricky.  Psychophysics is at the intersection of
+physics, biology, and information theory.  It’s messy.
+Roughly 30% of our cortex is dedicated to processing visual
+information. This is why visualization so powerfully helps us
+understand data — it quite literally allows us to use more of our
+brain.  But we can’t feed it arbitrary input and expect it to make
+sense of that input for us.&lt;/p&gt;
+&lt;p&gt;Our visual system is designed to make sense of a rainforest or
+savanna.  To build a 3d mental model of the world that we can
+navigate.  Our primate heritage means that our color perception is
+probably geared towards finding ripe fruit and avoiding dangerous
+critters — and to do so in a variety of lighting conditions.  It just
+speculation of course, but it strongly seems that we are wired to see
+“red” fruit as red, no matter what the physics of the illumination
+happens to be at the moment.  What matters isn’t so much the spectrum
+of the reflected light, but the spectrum &lt;em&gt;relative&lt;/em&gt; to the foliage
+around the fruit.  Psychophysics is fun, but psychophysics is
+complicated.&lt;/p&gt;
+&lt;p&gt;We should always keep this in mind when designing visualization.  Our
+visual cortex brings tremendous processing power and modeling ability
+to help us understand our data.  But if we feed it unnatural scenes
+it’s not likely to behave as we expect.&lt;/p&gt;
+&lt;p&gt;This illusion is not a color-only affect, the original
+White illusion (minus Munker!) is just grayscale.  It’s reproduced
+below.&lt;/p&gt;
+&lt;p&gt;One last thing: what color was the
+&lt;a href=&quot;https://en.wikipedia.org/wiki/The_dress&quot;&gt;dress&lt;/a&gt; again?&lt;/p&gt;
+&lt;noscript&gt;
+Munker Illusion requires javascript (sorry!)
+&lt;/noscript&gt;
+&lt;blog-munker-illusion background=&quot;black&quot; bar=&quot;white&quot; grating=&quot;gray&quot;&gt;
+&lt;/blog-munker-illusion&gt;</content:encoded></item><item><title><![CDATA[Constructing a cyclical colormap]]></title><description><![CDATA[Designing an effective cyclical colormap is a bit tricky.  Can the recent trend of using perceptually uniform colorspaces produce a cyclical map that is both compelling and capable of discerning small features?]]></description><link>https://wildsilicon.com/blog/2018/cyclical-colormaps/</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/cyclical-colormaps/</guid><pubDate>Thu, 17 May 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In my last &lt;a href=&quot;/blog/2018/demon/&quot;&gt;post&lt;/a&gt; I gave the option of using a
 variety of different colormaps.  The reason is because historically
 I’ve always favored plain grayscale colormaps.  I’ve always found that
 “color” colormaps grossly distort my data &lt;em&gt;and&lt;/em&gt; make it considerably

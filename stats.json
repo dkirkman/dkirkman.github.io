@@ -12,17 +12,21 @@
       "component---src-templates-page-template-jsx-994fa15cdac2f9049e27.js",
       "component---src-templates-page-template-jsx-994fa15cdac2f9049e27.js.map"
     ],
+    "path---blog-2018-cyclical-colormaps": [
+      "path---blog-2018-cyclical-colormaps-e1be1ea867886c7bdc04.js",
+      "path---blog-2018-cyclical-colormaps-e1be1ea867886c7bdc04.js.map"
+    ],
     "path---blog": [
-      "path---blog-1e2be102f7acf02ecd4a.js",
-      "path---blog-1e2be102f7acf02ecd4a.js.map"
+      "path---blog-89ebf9dc6c32ad4b33ca.js",
+      "path---blog-89ebf9dc6c32ad4b33ca.js.map"
     ],
     "path---": [
       "path----557518bd178906f8d58a.js",
       "path----557518bd178906f8d58a.js.map"
     ],
-    "path---blog-articles-2018-cyclical-colormaps": [
-      "path---blog-articles-2018-cyclical-colormaps-750d6622ff8b90808539.js",
-      "path---blog-articles-2018-cyclical-colormaps-750d6622ff8b90808539.js.map"
+    "path---blog-tags-psychophysics": [
+      "path---blog-tags-psychophysics-e19e144fb2716b7ffc3f.js",
+      "path---blog-tags-psychophysics-e19e144fb2716b7ffc3f.js.map"
     ],
     "path---blog-2018-demon": [
       "path---blog-2018-demon-4582cba0befa895ba639.js",
@@ -32,9 +36,13 @@
       "component---src-layouts-index-jsx-0dee3cdcbbfa86b7e891.js",
       "component---src-layouts-index-jsx-0dee3cdcbbfa86b7e891.js.map"
     ],
+    "path---blog-tags-illusions": [
+      "path---blog-tags-illusions-e581e11a89d8480743fa.js",
+      "path---blog-tags-illusions-e581e11a89d8480743fa.js.map"
+    ],
     "path---blog-tags-interactive-computation": [
-      "path---blog-tags-interactive-computation-07cbcaa5e5a4750dff43.js",
-      "path---blog-tags-interactive-computation-07cbcaa5e5a4750dff43.js.map"
+      "path---blog-tags-interactive-computation-7e7e4f7ca96d546c339f.js",
+      "path---blog-tags-interactive-computation-7e7e4f7ca96d546c339f.js.map"
     ],
     "component---src-templates-category-template-jsx": [
       "component---src-templates-category-template-jsx-cf1c8b990648253d5738.js",
@@ -45,20 +53,20 @@
       "component---node-modules-gatsby-plugin-offline-app-shell-js-5c4c5a0f7af9dc69d6d7.js.map"
     ],
     "component---src-templates-post-template-jsx": [
-      "component---src-templates-post-template-jsx-da0163ddeeab8ca2461c.js",
-      "component---src-templates-post-template-jsx-da0163ddeeab8ca2461c.js.map"
+      "component---src-templates-post-template-jsx-5e03e8d137762c9d1456.js",
+      "component---src-templates-post-template-jsx-5e03e8d137762c9d1456.js.map"
     ],
     "component---src-pages-blog-categories-jsx": [
       "component---src-pages-blog-categories-jsx-636711a7777a582d73e4.js",
       "component---src-pages-blog-categories-jsx-636711a7777a582d73e4.js.map"
     ],
     "path---index": [
-      "path---index-1e2be102f7acf02ecd4a.js",
-      "path---index-1e2be102f7acf02ecd4a.js.map"
+      "path---index-89ebf9dc6c32ad4b33ca.js",
+      "path---index-89ebf9dc6c32ad4b33ca.js.map"
     ],
     "path---blog-categories-visualization": [
-      "path---blog-categories-visualization-f6adc71716ab55bf536a.js",
-      "path---blog-categories-visualization-f6adc71716ab55bf536a.js.map"
+      "path---blog-categories-visualization-c47ac4c8009c2af48fe3.js",
+      "path---blog-categories-visualization-c47ac4c8009c2af48fe3.js.map"
     ],
     "commons": [
       "commons-2a1ac2ae0f864e4cea9b.js",
@@ -75,16 +83,16 @@
       "component---src-pages-404-jsx-3d0441dd1a11b2f3a35b.js.map"
     ],
     "path---blog-tags": [
-      "path---blog-tags-7b4e5925f3fee2f1601a.js",
-      "path---blog-tags-7b4e5925f3fee2f1601a.js.map"
+      "path---blog-tags-382e723345fd1dc762fc.js",
+      "path---blog-tags-382e723345fd1dc762fc.js.map"
     ],
     "component---src-pages-blog-tags-jsx": [
       "component---src-pages-blog-tags-jsx-1984f202b3aca7702e41.js",
       "component---src-pages-blog-tags-jsx-1984f202b3aca7702e41.js.map"
     ],
     "path---blog-tags-data-science": [
-      "path---blog-tags-data-science-5728737ad7bec3cb7ca3.js",
-      "path---blog-tags-data-science-5728737ad7bec3cb7ca3.js.map"
+      "path---blog-tags-data-science-8cb4ac927e1bd20858f5.js",
+      "path---blog-tags-data-science-8cb4ac927e1bd20858f5.js.map"
     ],
     "path---offline-plugin-app-shell-fallback": [
       "path---offline-plugin-app-shell-fallback-a0e39f21c11f6a62c5ab.js",
@@ -99,16 +107,20 @@
       "path---blog-tags-cellular-automata-5c7d768bb61791a79beb.js.map"
     ],
     "app": [
-      "app-c5d646bfb9e27981e659.js",
-      "app-c5d646bfb9e27981e659.js.map"
+      "app-7a9ea939469d02a3c8ba.js",
+      "app-7a9ea939469d02a3c8ba.js.map"
+    ],
+    "path---blog-2018-munker-illusion": [
+      "path---blog-2018-munker-illusion-4066cdaa2cf73224ad09.js",
+      "path---blog-2018-munker-illusion-4066cdaa2cf73224ad09.js.map"
     ],
     "path---404": [
       "path---404-b68206950856f877b606.js",
       "path---404-b68206950856f877b606.js.map"
     ],
     "path---blog-categories": [
-      "path---blog-categories-b63acb324d6a68efb5f9.js",
-      "path---blog-categories-b63acb324d6a68efb5f9.js.map"
+      "path---blog-categories-8341b1bfec8a3886c71f.js",
+      "path---blog-categories-8341b1bfec8a3886c71f.js.map"
     ],
     "path---about": [
       "path---about-b20b4e4015d27b24abf2.js",
