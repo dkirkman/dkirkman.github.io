@@ -13,32 +13,32 @@
       "component---src-templates-page-template-jsx-994fa15cdac2f9049e27.js.map"
     ],
     "path---blog-2018-cyclical-colormaps": [
-      "path---blog-2018-cyclical-colormaps-e1be1ea867886c7bdc04.js",
-      "path---blog-2018-cyclical-colormaps-e1be1ea867886c7bdc04.js.map"
+      "path---blog-2018-cyclical-colormaps-5e66cda443e8ca49533f.js",
+      "path---blog-2018-cyclical-colormaps-5e66cda443e8ca49533f.js.map"
     ],
     "path---blog": [
-      "path---blog-89ebf9dc6c32ad4b33ca.js",
-      "path---blog-89ebf9dc6c32ad4b33ca.js.map"
+      "path---blog-d8b6ac911b8c2dd20550.js",
+      "path---blog-d8b6ac911b8c2dd20550.js.map"
     ],
     "path---": [
       "path----557518bd178906f8d58a.js",
       "path----557518bd178906f8d58a.js.map"
     ],
     "path---blog-tags-psychophysics": [
-      "path---blog-tags-psychophysics-e19e144fb2716b7ffc3f.js",
-      "path---blog-tags-psychophysics-e19e144fb2716b7ffc3f.js.map"
+      "path---blog-tags-psychophysics-c67dd1b2ae7e72a81aad.js",
+      "path---blog-tags-psychophysics-c67dd1b2ae7e72a81aad.js.map"
     ],
     "path---blog-2018-demon": [
-      "path---blog-2018-demon-4582cba0befa895ba639.js",
-      "path---blog-2018-demon-4582cba0befa895ba639.js.map"
+      "path---blog-2018-demon-2e9ebccc9c987239338a.js",
+      "path---blog-2018-demon-2e9ebccc9c987239338a.js.map"
     ],
     "component---src-layouts-index-jsx": [
       "component---src-layouts-index-jsx-0dee3cdcbbfa86b7e891.js",
       "component---src-layouts-index-jsx-0dee3cdcbbfa86b7e891.js.map"
     ],
     "path---blog-tags-illusions": [
-      "path---blog-tags-illusions-e581e11a89d8480743fa.js",
-      "path---blog-tags-illusions-e581e11a89d8480743fa.js.map"
+      "path---blog-tags-illusions-1e5e5c70a6db28d6d1dd.js",
+      "path---blog-tags-illusions-1e5e5c70a6db28d6d1dd.js.map"
     ],
     "path---blog-tags-interactive-computation": [
       "path---blog-tags-interactive-computation-7e7e4f7ca96d546c339f.js",
@@ -53,20 +53,28 @@
       "component---node-modules-gatsby-plugin-offline-app-shell-js-5c4c5a0f7af9dc69d6d7.js.map"
     ],
     "component---src-templates-post-template-jsx": [
-      "component---src-templates-post-template-jsx-5e03e8d137762c9d1456.js",
-      "component---src-templates-post-template-jsx-5e03e8d137762c9d1456.js.map"
+      "component---src-templates-post-template-jsx-8554d1dcba61e0e38930.js",
+      "component---src-templates-post-template-jsx-8554d1dcba61e0e38930.js.map"
+    ],
+    "ws-munker-illusion": [
+      "ws-munker-illusion-4664f9d55549520aba0e.js",
+      "ws-munker-illusion-4664f9d55549520aba0e.js.map"
     ],
     "component---src-pages-blog-categories-jsx": [
       "component---src-pages-blog-categories-jsx-636711a7777a582d73e4.js",
       "component---src-pages-blog-categories-jsx-636711a7777a582d73e4.js.map"
     ],
+    "ws-colormap": [
+      "ws-colormap-b59a5b91a0fe048ebeb8.js",
+      "ws-colormap-b59a5b91a0fe048ebeb8.js.map"
+    ],
     "path---index": [
-      "path---index-89ebf9dc6c32ad4b33ca.js",
-      "path---index-89ebf9dc6c32ad4b33ca.js.map"
+      "path---index-d8b6ac911b8c2dd20550.js",
+      "path---index-d8b6ac911b8c2dd20550.js.map"
     ],
     "path---blog-categories-visualization": [
-      "path---blog-categories-visualization-c47ac4c8009c2af48fe3.js",
-      "path---blog-categories-visualization-c47ac4c8009c2af48fe3.js.map"
+      "path---blog-categories-visualization-37422e5b96035512d842.js",
+      "path---blog-categories-visualization-37422e5b96035512d842.js.map"
     ],
     "commons": [
       "commons-2a1ac2ae0f864e4cea9b.js",
@@ -107,12 +115,12 @@
       "path---blog-tags-cellular-automata-5c7d768bb61791a79beb.js.map"
     ],
     "app": [
-      "app-7a9ea939469d02a3c8ba.js",
-      "app-7a9ea939469d02a3c8ba.js.map"
+      "app-e33785e71e09855dac83.js",
+      "app-e33785e71e09855dac83.js.map"
     ],
     "path---blog-2018-munker-illusion": [
-      "path---blog-2018-munker-illusion-4066cdaa2cf73224ad09.js",
-      "path---blog-2018-munker-illusion-4066cdaa2cf73224ad09.js.map"
+      "path---blog-2018-munker-illusion-7a1272337d7de08fec70.js",
+      "path---blog-2018-munker-illusion-7a1272337d7de08fec70.js.map"
     ],
     "path---404": [
       "path---404-b68206950856f877b606.js",
@@ -125,6 +133,10 @@
     "path---about": [
       "path---about-b20b4e4015d27b24abf2.js",
       "path---about-b20b4e4015d27b24abf2.js.map"
+    ],
+    "ws-demon": [
+      "ws-demon-7da3b65eb667401e796d.js",
+      "ws-demon-7da3b65eb667401e796d.js.map"
     ]
   }
 }
