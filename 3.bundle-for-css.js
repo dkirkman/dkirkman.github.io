@@ -1,6 +1,6 @@
 webpackJsonp([3],{
 
-/***/ 449:
+/***/ 387:
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -70,7 +70,7 @@ webpackJsonp([3],{
 	      } }, { key: "labeled_slider", value: function value(e, t, n, r, f, u, o) {
 	        return a.default.createElement("div", { style: { display: "block", width: "350px" } }, a.default.createElement("div", { style: { display: "table-cell", "vertical-align": "top", width: "350px" } }, a.default.createElement("label", { style: { "font-size": "1.0rem", "vertical-align": "middle" } }, e), a.default.createElement("div", { style: { width: "150px", float: "right" } }, a.default.createElement("input", { type: "range", ref: u, min: t, max: n, step: r, defaultValue: f, onInput: o, onChange: o, style: { "vertical-align": "middle" } }))));
 	      } }, { key: "render", value: function value() {
-	        return a.default.createElement("div", null, a.default.createElement("div", { style: { display: "inline" } }, this.labeled_slider("Stripe Width", 1, 50, 1, 5, this.widthRef, this.widthChange), this.labeled_slider("Background Lightness", 0, 1, .01, 0, this.lightnessRef, this.lightnessChange), this.labeled_slider("Right Grating Offset", 0, 1, .05, 0, this.offsetRef, this.offsetChange)), a.default.createElement("div", { style: { display: "block", margin: "auto" } }, a.default.createElement("svg", { width: this.width, height: this.height, ref: this.myRef, style: { display: "block", margin: "auto" } })));
+	        return a.default.createElement("p", null, a.default.createElement("div", { style: { display: "inline" } }, this.labeled_slider("Stripe Width", 1, 50, 1, 5, this.widthRef, this.widthChange), this.labeled_slider("Background Lightness", 0, 1, .01, 0, this.lightnessRef, this.lightnessChange), this.labeled_slider("Right Grating Offset", 0, 1, .05, 0, this.offsetRef, this.offsetChange)), a.default.createElement("div", { style: { display: "block", margin: "auto" } }, a.default.createElement("svg", { width: this.width, height: this.height, ref: this.myRef, style: { display: "block", margin: "auto" } })));
 	      } }]), t;
 	  }();t.default = i;
 	}, function (e, t) {
