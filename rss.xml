@@ -1,4 +1,233 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Sun, 03 Jun 2018 18:22:13 GMT</lastBuildDate><item><title><![CDATA[Getting started with WebGL:  boilerplate for a world]]></title><description><![CDATA[Hello world, WebGL edition.  Because you can't very well say hello without a world.  Provides some basic boilerplate for playing around with 3d objects, focusing on GLSL shaders.]]></description><link>https://wildsilicon.com/blog/2018/hello-gl/</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/hello-gl/</guid><pubDate>Fri, 01 Jun 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;blog-hello-gl reactclass=&quot;HelloGL&quot; meshsize=&quot;30&quot;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Wed, 13 Jun 2018 19:41:40 GMT</lastBuildDate><item><title><![CDATA[Making emscripten, webpack, and node.js work together]]></title><description><![CDATA[Using a single code base and emscripten to make a c or c++  library available to both node.js and webpack is not entirely  trivial.  I've set up a simple repository that does exactly that, and is configured to dynamically load either the WebAssembly or  AsmJS version of the native code.]]></description><link>https://wildsilicon.com/blog/2018/emscripten-webpack/</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/emscripten-webpack/</guid><pubDate>Tue, 12 Jun 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I’ve recently started using emscripten to make some legacy c++ code
+available in javascript as a library — the main part of my
+application is still javascript, but I’m making calls into and out
+of the c++ code.  While there seems to be extensive documentation
+related to building an entire application (e.g. a game) via
+emscripten, getting everything setup to use native code as a library
+turned out to take a bit of doing.  If this matches your use case,
+read on.&lt;/p&gt;
+&lt;p&gt;My goal is to have boilerplate that:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Builds the c or c++ code with standard build tools, which in my
+case means cmake.  Separate compilation and incremental builds are
+essential here, especially for c++.&lt;/li&gt;
+&lt;li&gt;Produces output that can be directly consumed by node.&lt;/li&gt;
+&lt;li&gt;Produces output that can be webpacked into a reasonable bundle.&lt;/li&gt;
+&lt;li&gt;Produces both AsmJS and WebAssembly versions of the native code.&lt;/li&gt;
+&lt;li&gt;Loads &lt;em&gt;either&lt;/em&gt; the AsmJS or WebAssembly version of the code, but
+not both.  I want the ability to only send what will be required for
+execution.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I’ve made a &lt;a href=&quot;https://github.com/dkirkman/ws-emscripten-webpack&quot;&gt;repo&lt;/a&gt;
+that accomplishes all of the above.  To use the repo, &lt;code class=&quot;language-text&quot;&gt;make&lt;/code&gt; will
+produce the AsmJS and WebAssembly code.  &lt;code class=&quot;language-text&quot;&gt;npm run build&lt;/code&gt; will produce
+a bundle suitable for embedding in a browser, as I’ve done at the bottom
+of this page.&lt;/p&gt;
+&lt;p&gt;The repo is laid out with the c code and javascript module that provides
+access to it in the &lt;tt&gt;src&lt;/tt&gt; directory.  &lt;code class=&quot;language-text&quot;&gt;make&lt;/code&gt; will compile the c code
+and move a copy of the javascript code to the &lt;tt&gt;build&lt;/tt&gt; directory, where
+it can be directly consumed by node.  &lt;code class=&quot;language-text&quot;&gt;npm run build&lt;/code&gt; will package the
+contents of &lt;tt&gt;build&lt;/tt&gt; into &lt;tt&gt;dist&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;The basic steps operate as follows.&lt;/p&gt;
+&lt;h2&gt;Compilation of c to LLVM bitcode&lt;/h2&gt;
+&lt;p&gt;This is accomplished entirely via CMake, which is configured by the
+&lt;tt&gt;CMakeLists.txt&lt;/tt&gt; files in the root and &lt;tt&gt;src&lt;/tt&gt; directories.
+The &lt;tt&gt;build&lt;/tt&gt; target in the &lt;tt&gt;Makefile&lt;/tt&gt; will create the
+&lt;tt&gt;build&lt;/tt&gt; directory, and use &lt;tt&gt;cmake&lt;/tt&gt; and &lt;tt&gt;emconfigure&lt;/tt&gt;
+to generate makefiles.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;build:
+	mkdir build
+	cd build; emconfigure cmake ../&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;The &lt;tt&gt;make&lt;/tt&gt; uses &lt;tt&gt;emmake&lt;/tt&gt; and &lt;tt&gt;make&lt;/tt&gt; to actually build
+the native libraries.  This is trivial for this simple boilerplate, but for
+large applications this is a full incremental build system.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;make: build
+	cd build; emmake make&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;h2&gt;LLVM bitcode to AsmJS and WebAssembly&lt;/h2&gt;
+&lt;p&gt;This occurs via the &lt;tt&gt;build/libTest.js&lt;/tt&gt; and
+&lt;tt&gt;build/libTestAsm.js&lt;/tt&gt; targets.  I just use emscripten to
+transform the LLVM bitcode in &lt;tt&gt;build/libTest.a&lt;/tt&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;build/libTest.js: build/src/libTest.a
+	emcc -s WASM=1 -s MODULARIZE=1 build/src/libTest.a -o build/libTest.js
+
+build/libTestAsm.js: build/src/libTest.a
+	emcc -s WASM=0 -s MODULARIZE=1 build/src/libTest.a -o build/libTestAsm.js&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;h2&gt;Javascript to dynamically load the emscripten code&lt;/h2&gt;
+&lt;p&gt;This is where it gets tricky, because I want the module to work with both
+node.js and webpack.  For dynamic loading to work with webpack, we’ve got
+to either load the emscripten code with the old &lt;tt&gt;require.ensure()&lt;/tt&gt;
+or use dynamic &lt;tt&gt;import&lt;/tt&gt; from ES6 modules.  Making one of those work
+with node is going to involve either a transpiling step for node, or using
+a very recent version of node with experimental support for ES6 modules.&lt;/p&gt;
+&lt;p&gt;I’m relying on node support for ES6 modules to make this work.  To enable
+this, we have to invoke node like so:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;node --experimental-modules&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;For reasons I don’t entirely understand, node only supports ES6 modules in
+files with an &lt;tt&gt;.mjs&lt;/tt&gt; extension. &lt;tt&gt;.js&lt;/tt&gt; files will not work.
+Thus, the main interface to the module is &lt;tt&gt;src/index.mjs&lt;/tt&gt;.
+&lt;tt&gt;src/index.mjs&lt;/tt&gt; defines a default export that’s a function which
+takes some configuration options and a callback, then loads the emscripten
+code and calls the callback.  The money section looks like:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;   &lt;span class=&quot;token function&quot;&gt;module_options&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url_prefix&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;mopts &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token comment&quot;&gt;/* webpackChunkName: &quot;libTest&quot; */&lt;/span&gt; 
+        &lt;span class=&quot;token string&quot;&gt;&apos;./libTest.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;module &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;mopts&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;cspace &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;cb&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;cspace&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;Note that that while the &lt;tt&gt;—experimental-modules&lt;/tt&gt; has been in node
+since version 8.5, it looks like dynamic imports are only recently supported.
+I’m using node 10.4.0.&lt;/p&gt;
+&lt;p&gt;Also note using a callback after loading the emscripten generated code
+isn’t just a stylistic choice.  The emscripten generated modules are
+“promise-like” in the sense that they have a then method — but
+because they have a &lt;tt&gt;then&lt;/tt&gt; method they can’t actually be
+returned as the value of a promise.  Any attempt to do so will just
+result in an infinite &lt;tt&gt;then&lt;/tt&gt; loop as the promise tries to get
+resolved.  Therefore, if you want to make the interface module return one
+of the emscripten modules directly, you’ve got to either wrap it in something
+without a &lt;tt&gt;then&lt;/tt&gt; method, or you’ve got to use a callback.  I’ve
+decided to use a callback.&lt;/p&gt;
+&lt;p&gt;Another key part of &lt;tt&gt;src/index.mjs&lt;/tt&gt; is that if we are going to use
+WebAssembly, the emscripten module itself loads the WebAssembly file.  So
+we need to tell emscripten where it is.  This occurs in the
+&lt;tt&gt;module_options&lt;/tt&gt;promise where we eventually return&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  locateFile&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;path&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;path&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;endsWith&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;.wasm&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;nodep&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;__dirname &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;/&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; name&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url_prefix &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; name&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; path&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;Which works out if we are in node or a browser, and then either returns a
+file path or url.  The &lt;code class=&quot;language-text&quot;&gt;name&lt;/code&gt; itself also depends on the execution context.
+For node, it’s just &lt;tt&gt;libTest.wasm&lt;/tt&gt;.  For a browser environment however,
+we want webpack to include a cache-busting hash to the filename, so we don’t
+actually know what the file name is going to be.  However, we can ask
+webpack to “import” the wasm file, and that will resolve to a string
+containing the actual hash-containing url.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; wasm_name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;resolve&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; reject&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;nodep&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;libTest.wasm&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token comment&quot;&gt;/* webpackChunkName: &quot;wasmName&quot; */&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./libTest.wasm&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;The dynamic import of &lt;tt&gt;libTest.wasm&lt;/tt&gt; won’t work at all in node, but
+it’s never executed in a node environment, so no harm no foul.&lt;/p&gt;
+&lt;p&gt;At this point, everything is in place to use the module with node.  In the
+root of the repo is a simple test program named &lt;tt&gt;node-main.mjs&lt;/tt&gt;.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; ttest &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./build/index.mjs&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;ttest&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;asm.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; cspace &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;33 + 55 is &apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; cspace&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;_add_values&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;55&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;To run it you just need to&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;node --experimental-modules node-main.mjs&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;h2&gt;Webpack’n for use in a browser&lt;/h2&gt;
+&lt;p&gt;Most of the work to get webpack to produce dynamically loaded modules was
+done in the design of the interface module &lt;tt&gt;src/index.js&lt;/tt&gt;.  By using
+dynamic imports for both &lt;tt&gt;libTest.js&lt;/tt&gt; and &lt;tt&gt;libTestAsm.js&lt;/tt&gt;
+we ensure just the one we ask for will be loaded.&lt;/p&gt;
+&lt;p&gt;If fact, we can almost get away with default webpack behavior.  But not quite:
+my &lt;tt&gt;webpack.config.js&lt;/tt&gt; has a couple of important tweaks.  First
+of all, I want to encode the wasm filename with a hash, this is done with&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  module: {
+    rules: [
+      { 
+        test: /\.wasm$/,
+        type: &amp;#39;javascript/auto&amp;#39;,
+        loader: &amp;#39;file-loader&amp;#39;,
+        options: {
+          name: &amp;#39;[name]-[hash].[ext]&amp;#39;,         
+        }        
+      }
+    ]
+  },&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;The second webpack tweak is that by default it seems to think that when it’s
+dealing with &lt;tt&gt;.mjs&lt;/tt&gt; files that it’s going to be targeting node
+(presumably because the &lt;tt&gt;.mjs&lt;/tt&gt; extension is not used by anybody else).&lt;/p&gt;
+&lt;p&gt;To convince webpack to produce a bundle without references to various node things, I’ve got the following section&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt; target: &amp;#39;web&amp;#39;,
+  node: {
+    __dirname: false,
+    fs: &amp;#39;empty&amp;#39;,
+    Buffer: false,
+    process: false
+  }&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;With that in place, webpack produces:&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/emscripten-build-05166a2a1d20122fa602cb574a710d09-54585.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 960px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 49.921996879875195%; position: relative; bottom: 0; left: 0; background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;emscripten-build&quot;
+        title=&quot;&quot;
+        src=&quot;/static/emscripten-build-05166a2a1d20122fa602cb574a710d09-c83f1.png&quot;
+        srcset=&quot;/static/emscripten-build-05166a2a1d20122fa602cb574a710d09-569e3.png 240w,
+/static/emscripten-build-05166a2a1d20122fa602cb574a710d09-93400.png 480w,
+/static/emscripten-build-05166a2a1d20122fa602cb574a710d09-c83f1.png 960w,
+/static/emscripten-build-05166a2a1d20122fa602cb574a710d09-54585.png 1282w&quot;
+        sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;&lt;tt&gt;dist/index.js&lt;/tt&gt; is the main entry point, everything else is
+dynamically loaded as needed.  If you’re wondering about the sizes,
+&lt;tt&gt;libTestAsm&lt;/tt&gt; contains both AsmJS code &lt;em&gt;and&lt;/em&gt; the emscripten c
+runtime.  &lt;tt&gt;libTest&lt;/tt&gt; just contains the emscripten c runtime,
+and loads the actual library code from &lt;tt&gt;libTest-[hash].wasm&lt;/tt&gt;&lt;/p&gt;
+&lt;h2&gt;Live results&lt;/h2&gt;
+&lt;p&gt;I’ve embedded the webpack bundle into this page.  If you push one of
+the buttons below, it will load the appropriate library on do the
+calculation.  If you look at what your browser is downloading and when (e.g.
+from the network tab in the chrome developer tools) you can observe
+the libraries being loaded on demand.&lt;/p&gt;
+&lt;blog-emscripten-webpack reactclass=&quot;AddValues&quot;&gt;
+&lt;/blog-emscripten-webpack&gt;
+&lt;blog-emscripten-webpack reactclass=&quot;AddValues&quot; asmjs=true&gt;
+&lt;/blog-emscripten-webpack&gt;</content:encoded></item><item><title><![CDATA[Getting started with WebGL:  boilerplate for a world]]></title><description><![CDATA[Hello world, WebGL edition.  Because you can't very well say hello without a world.  Provides some basic boilerplate for playing around with 3d objects, focusing on GLSL shaders.]]></description><link>https://wildsilicon.com/blog/2018/hello-gl/</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/hello-gl/</guid><pubDate>Thu, 31 May 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;blog-hello-gl reactclass=&quot;HelloGL&quot; meshsize=&quot;30&quot;
                use_textured_earth=&quot;true&quot; lighting=&quot;directional&quot;&gt;
 &lt;/blog-hello-gl&gt;&lt;/p&gt;
 &lt;p&gt;This is quite literally “Hello World” implemented in WebGL.  I

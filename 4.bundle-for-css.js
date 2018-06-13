@@ -1,6 +1,6 @@
 webpackJsonp([4],{
 
-/***/ 388:
+/***/ 455:
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -43,13 +43,13 @@ webpackJsonp([4],{
 	        if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
 	      }(this, t);var n = function (e, t) {
 	        if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" != (typeof t === "undefined" ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
-	      }(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e));return n.width = 800, n.height = 480, n.canvasRef = r.default.createRef(), n.controlRef = r.default.createRef(), n;
+	      }(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e));return n.width = 630, n.height = 400, n.canvasRef = r.default.createRef(), n.controlRef = r.default.createRef(), n;
 	    }return function (e, t) {
 	      if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + (typeof t === "undefined" ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
 	    }(t, i.Component), o(t, [{ key: "componentDidMount", value: function value() {
 	        var e = document.createElement("canvas");e.width = this.width, e.height = this.height, this.canvasRef.current.appendChild(e);var t = 30;void 0 !== this.props.meshsize && (t = Number(this.props.meshsize));var n = "uniform";void 0 !== this.props.lighting && (n = this.props.lighting);var o = !1;"true" === this.props.useTexturedEarth && (o = !0), (0, a.default)(this.controlRef.current, e, t, n, o);
 	      } }, { key: "render", value: function value() {
-	        return r.default.createElement("p", null, r.default.createElement("div", { className: "demon" }, r.default.createElement("div", { className: "demon", ref: this.controlRef, style: { height: 0, float: "right", "z-index": 0, position: "relative", top: 0, left: 0 } }), r.default.createElement("div", { ref: this.canvasRef })));
+	        return r.default.createElement("p", null, r.default.createElement("div", { className: "demon", style: { width: 630, "margin-left": "auto", "margin-right": "auto", display: "block" } }, r.default.createElement("div", { className: "demon", ref: this.controlRef, style: { height: 0, float: "right", "z-index": 0, position: "relative", top: 0, left: 0 } }), r.default.createElement("div", { ref: this.canvasRef })));
 	      } }]), t;
 	  }();t.default = l;
 	}, function (e, t, n) {
