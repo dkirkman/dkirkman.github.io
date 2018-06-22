@@ -1,0 +1,1 @@
+self.webpackChunkCJSCommunication([2],{6:function(a,e,b){a.exports=b.p+"libTest-0b1abe462617d7edb78a508119a7af4f.wasm"}});

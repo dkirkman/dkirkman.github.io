@@ -1,5 +1,9 @@
 {
   "assetsByChunkName": {
+    "c-javascript-communication": [
+      "c-javascript-communication-9f29f5229698f9b504e9.js",
+      "c-javascript-communication-9f29f5229698f9b504e9.js.map"
+    ],
     "component---src-templates-tag-template-jsx": [
       "component---src-templates-tag-template-jsx-06fbd3473ea34e10770a.js",
       "component---src-templates-tag-template-jsx-06fbd3473ea34e10770a.js.map"
@@ -13,16 +17,16 @@
       "component---src-templates-page-template-jsx-994fa15cdac2f9049e27.js.map"
     ],
     "path---blog-categories-development": [
-      "path---blog-categories-development-abfb9c3f8b8c315b55e1.js",
-      "path---blog-categories-development-abfb9c3f8b8c315b55e1.js.map"
+      "path---blog-categories-development-2dbbe7bfdc33dee55b56.js",
+      "path---blog-categories-development-2dbbe7bfdc33dee55b56.js.map"
     ],
     "path---blog-2018-cyclical-colormaps": [
       "path---blog-2018-cyclical-colormaps-5e66cda443e8ca49533f.js",
       "path---blog-2018-cyclical-colormaps-5e66cda443e8ca49533f.js.map"
     ],
     "path---blog": [
-      "path---blog-0b3c7f0d6236cdabb75e.js",
-      "path---blog-0b3c7f0d6236cdabb75e.js.map"
+      "path---blog-5765545d0768e8366c38.js",
+      "path---blog-5765545d0768e8366c38.js.map"
     ],
     "path---": [
       "path----557518bd178906f8d58a.js",
@@ -35,6 +39,10 @@
     "path---blog-2018-demon": [
       "path---blog-2018-demon-2e9ebccc9c987239338a.js",
       "path---blog-2018-demon-2e9ebccc9c987239338a.js.map"
+    ],
+    "path---blog-2018-c-javascript-communication": [
+      "path---blog-2018-c-javascript-communication-a74edc947334e6e74bf2.js",
+      "path---blog-2018-c-javascript-communication-a74edc947334e6e74bf2.js.map"
     ],
     "component---src-layouts-index-jsx": [
       "component---src-layouts-index-jsx-0dee3cdcbbfa86b7e891.js",
@@ -57,8 +65,8 @@
       "component---node-modules-gatsby-plugin-offline-app-shell-js-5c4c5a0f7af9dc69d6d7.js.map"
     ],
     "component---src-templates-post-template-jsx": [
-      "component---src-templates-post-template-jsx-dffc49c5df069a861a2d.js",
-      "component---src-templates-post-template-jsx-dffc49c5df069a861a2d.js.map"
+      "component---src-templates-post-template-jsx-1d7b0959a2dbbf42333f.js",
+      "component---src-templates-post-template-jsx-1d7b0959a2dbbf42333f.js.map"
     ],
     "ws-munker-illusion": [
       "ws-munker-illusion-3c226a2276a6c4f06416.js",
@@ -89,12 +97,12 @@
       "path---blog-tags-web-gl-c9f5e96c724746ca662f.js.map"
     ],
     "path---blog-tags-development": [
-      "path---blog-tags-development-74993877165f928e7786.js",
-      "path---blog-tags-development-74993877165f928e7786.js.map"
+      "path---blog-tags-development-f3b1fa6b9761562f9eac.js",
+      "path---blog-tags-development-f3b1fa6b9761562f9eac.js.map"
     ],
     "path---index": [
-      "path---index-0b3c7f0d6236cdabb75e.js",
-      "path---index-0b3c7f0d6236cdabb75e.js.map"
+      "path---index-5765545d0768e8366c38.js",
+      "path---index-5765545d0768e8366c38.js.map"
     ],
     "path---blog-categories-visualization": [
       "path---blog-categories-visualization-37422e5b96035512d842.js",
@@ -105,9 +113,9 @@
       "path---blog-tags-webpack-2512dd8632fa5681424f.js.map"
     ],
     "commons": [
-      "commons-778bfdf5ddca4c6370df.js",
+      "commons-b1592d80feaff5b99c9d.js",
       "build-js-styles.css",
-      "commons-778bfdf5ddca4c6370df.js.map",
+      "commons-b1592d80feaff5b99c9d.js.map",
       "build-js-styles.css.map"
     ],
     "path---blog-tags-nodejs": [
@@ -123,8 +131,8 @@
       "component---src-pages-404-jsx-3d0441dd1a11b2f3a35b.js.map"
     ],
     "path---blog-tags": [
-      "path---blog-tags-14800c78523e4892b397.js",
-      "path---blog-tags-14800c78523e4892b397.js.map"
+      "path---blog-tags-7d7fe83975c40ace80e2.js",
+      "path---blog-tags-7d7fe83975c40ace80e2.js.map"
     ],
     "component---src-pages-blog-tags-jsx": [
       "component---src-pages-blog-tags-jsx-1984f202b3aca7702e41.js",
@@ -147,8 +155,8 @@
       "path---blog-tags-cellular-automata-5c7d768bb61791a79beb.js.map"
     ],
     "app": [
-      "app-28294bd07e4b9bbd9ddb.js",
-      "app-28294bd07e4b9bbd9ddb.js.map"
+      "app-96e1ce0b6d540b067694.js",
+      "app-96e1ce0b6d540b067694.js.map"
     ],
     "path---blog-2018-munker-illusion": [
       "path---blog-2018-munker-illusion-7a1272337d7de08fec70.js",
@@ -163,12 +171,12 @@
       "path---404-b68206950856f877b606.js.map"
     ],
     "path---blog-categories": [
-      "path---blog-categories-680ee5713604ff2a9bb6.js",
-      "path---blog-categories-680ee5713604ff2a9bb6.js.map"
+      "path---blog-categories-0531201193295e2f8d64.js",
+      "path---blog-categories-0531201193295e2f8d64.js.map"
     ],
     "path---blog-tags-emscripten": [
-      "path---blog-tags-emscripten-0475d64e69347baffaed.js",
-      "path---blog-tags-emscripten-0475d64e69347baffaed.js.map"
+      "path---blog-tags-emscripten-ec2661c3422b953a7afd.js",
+      "path---blog-tags-emscripten-ec2661c3422b953a7afd.js.map"
     ],
     "path---about": [
       "path---about-ae3d2803c1dd6206d175.js",

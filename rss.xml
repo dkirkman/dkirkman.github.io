@@ -1,4 +1,156 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Wed, 13 Jun 2018 19:41:40 GMT</lastBuildDate><item><title><![CDATA[Making emscripten, webpack, and node.js work together]]></title><description><![CDATA[Using a single code base and emscripten to make a c or c++  library available to both node.js and webpack is not entirely  trivial.  I've set up a simple repository that does exactly that, and is configured to dynamically load either the WebAssembly or  AsmJS version of the native code.]]></description><link>https://wildsilicon.com/blog/2018/emscripten-webpack/</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/emscripten-webpack/</guid><pubDate>Tue, 12 Jun 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I’ve recently started using emscripten to make some legacy c++ code
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wild Silicon]]></title><description><![CDATA[David's development blog]]></description><link>https://wildsilicon.com</link><generator>RSS for Node</generator><lastBuildDate>Fri, 22 Jun 2018 01:09:38 GMT</lastBuildDate><item><title><![CDATA[Using emscripten libraries in anger:  notes from the field]]></title><description><![CDATA[Some field notes from using an emscripten compiled c module in a javascript application.  Discussion of efficient c-javascript array passing, restarting the emscripten runtime, and packing the c library to be used in a WebWorker.]]></description><link>https://wildsilicon.com/blog/2018/c-javascript-communication/</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/c-javascript-communication/</guid><pubDate>Wed, 20 Jun 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;This is a collection of notes from my first few weeks of using
+emscripten in earnest.  Specifically, I’ve been compiling an existing
+c code base into a library to be used in an existing React
+application.  So I’m specifically dealing with issues related to using
+emscripten code as a library (as opposed to an entire emscripten
+application) in such a way that the calculations are potentially long
+running and memory intensive.&lt;/p&gt;
+&lt;p&gt;As always, working code associated with this post is available on
+&lt;a href=&quot;https://github.com/dkirkman/ws-emscripten-webpack/tree/master/c-javascript-communication&quot;&gt;github&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Efficient array passing&lt;/h2&gt;
+&lt;p&gt;The official &lt;a href=&quot;https://kripken.github.io/emscripten-site/docs/porting/connecting_cpp_and_javascript/index.html&quot;&gt;docs&lt;/a&gt; do a good job of explaining how to pass
+simple primitive arguments — e.g. numbers — and strings.  Passing arrays
+is left a little fuzzy.&lt;/p&gt;
+&lt;p&gt;The emscripten runtime allocates a contiguous array of bytes for
+c-space operations.  Any pointer you pass to a c function is just an
+offset into that array of bytes.  It is not possible to pass a
+js-space typed array — the standard recommendation is to copy it to
+c-space (see this
+&lt;a href=&quot;https://github.com/Planeshifter/emscripten-examples/tree/master/01_PassingArrays&quot;&gt;note&lt;/a&gt;
+for a typical approach).  However, copying is not &lt;em&gt;required&lt;/em&gt;.  You can
+instead allocate the array in c-space, and then construct your
+js-space typed array from those bytes.  This allows copy free access
+from both js-space and c-space.  The functions I use for this are:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;allocCSpaceArray&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;cSpace&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; arrayConstructor&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; ndat&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; size &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; ndat &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; arrayConstructor&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;BYTES_PER_ELEMENT&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; cPtr &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; cSpace&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;_malloc&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;size&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; jsArray &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;arrayConstructor&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;cSpace&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;HEAPU8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;buffer&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; cPtr&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; ndat&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;cPtr&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; cPtr&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; jsArray&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; jsArray&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; cSpace&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; cSpace&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;wehre &lt;code class=&quot;language-text&quot;&gt;cSpace&lt;/code&gt; is the emscripten compiled module.  The only downside to this
+is that the array needs to be manually freed with&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;freeCSpaceArray&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;arr&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  arr&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;cSpace&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;_free&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;arr&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;cSpace&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;cPtr&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  arr&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;cPtr &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; arr&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;jsArray &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;So the tradeoff with allocating directly in c-space is that you’ve got to
+handle freeing the memory manually.  Of course, you also have to manually
+free any memory that you allocate when copying a typed array into c-space, but
+if you want to it’s easy enough in that case to alloc/use/free in a single
+section of code.&lt;/p&gt;
+&lt;h2&gt;Restarting the emscripten runtime&lt;/h2&gt;
+&lt;p&gt;When using an emscripten module as a library driven by js-space code,
+“restarting” the emscripten runtime is a simple as reloading your
+emscripten module.  In fact, it’s entirely possible to have several
+copies of the runtime going simultaneously.  However, by default each
+time you reload your emscripten module you’ll also load/parse/compile
+the module’s WebAssembly code.  It is possible to bypass that process
+by loading and compiling the WebAssembly yourself, and then passing the
+emscripten loader an instance of that WebAssembly. The process would look
+something like this:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; filename &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; path&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;normalize&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;./build/libTest.wasm&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; wasmBytes &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; fs&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;readFileSync&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;filename&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+WebAssembly&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;wasmBytes&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;wasmModule &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;instantiateWasm&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;info&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; callback&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    WebAssembly&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;instantiate&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;wasmModule&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; info&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;instance &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;instance&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;single_run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;loadEmscripten&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;asm.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                    instantiateWasm&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; instantiateWasm&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                   cspace &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;// do something with the emscripten module &lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;where &lt;code class=&quot;language-text&quot;&gt;loadEmscripten&lt;/code&gt; is your normal emscripten module loader.&lt;/p&gt;
+&lt;p&gt;Why would you want to restart the emscripten runtime?  I’ve run into a
+problem where I run out of memory while allocating c arrays.  If
+you’ve configured emscripten to grow memory on demand, by the time
+that c-space memory allocations fail the emscripten (or rather
+WebAssembly) heap may be (and in my case &lt;em&gt;was&lt;/em&gt;) consuming most of the
+memory available to your javascript engine.  Because the WebAssembly
+heap can be grown but it can not be reduced, simply &lt;code class=&quot;language-text&quot;&gt;_free&lt;/code&gt;ing your
+pointers in c-space wont free up any memory for javascript.  The only
+thing you can do is to dispose (e.g. loose references to and allow it
+to be garbage collected) of the c runtime.&lt;/p&gt;
+&lt;p&gt;As far as timing is concerned, instantiating a new emscripten module from
+pre-compiled WASM takes about 2ms on my machine (mid 2016 macbook pro).
+Compiling WASM in the first place takes 10-100 ms for the modules I’ve been
+working with, which range from about 10 lines of c to 12k lines of c.&lt;/p&gt;
+&lt;h2&gt;Threads&lt;/h2&gt;
+&lt;p&gt;By using &lt;tt&gt;-s USE_PTHREADS=1&lt;/tt&gt; you can enable pthread support in
+emscripten.  I have been unable to make this work anyplace but node,
+presumably because all browsers have disabled &lt;code class=&quot;language-text&quot;&gt;SharedArrayBuffer&lt;/code&gt; in
+response to spectre.  (Mitigating spectre has also cost us high
+resolution timers in the browser, garrrh).  The only luck I’ve had is
+to put the c-runtime in it’s own WebWorker and use js-space
+communication back to the main thread.&lt;/p&gt;
+&lt;p&gt;It also turns out that neither WebAssembly or emscripten modules seem
+to implement &lt;tt&gt;Transferable&lt;/tt&gt;, so I’ve ended up having each
+WebWorker compile and instantiate it’s own c-space runtime.  This
+isn’t ideal, but so far it’s only costing me ~50ms, so I haven’t
+worked out a better solution yet.  However, because the c libraries I’ve
+been bringing onto the client via emscripten have long runtimes, I’ve taken
+to running them in a webWorker by default.&lt;/p&gt;
+&lt;p&gt;I’ve modified the code from my last &lt;a href=&quot;../emscripten-webpack/&quot;&gt;post&lt;/a&gt; to
+run in WebWorkers (code &lt;a href=&quot;https://github.com/dkirkman/ws-emscripten-webpack/tree/master/c-javascript-communication&quot;&gt;here&lt;/a&gt;)&lt;/p&gt;
+&lt;blog-c-javascript-communication reactclass=&quot;AddValues&quot;&gt;
+&lt;/blog-c-javascript-communication&gt;
+&lt;blog-c-javascript-communication asmjs=&quot;true&quot; reactclass=&quot;AddValues&quot;&gt;
+&lt;/blog-c-javascript-communication&gt;
+&lt;p&gt;The changes required to use it in a &lt;code class=&quot;language-text&quot;&gt;Worker&lt;/code&gt; are relatively minor.  The most
+important one is to tell webpack to build a bundle meant to be loaded as a
+webworker, which will prevent references to &lt;code class=&quot;language-text&quot;&gt;window&lt;/code&gt; and such (generally replacing with references to &lt;code class=&quot;language-text&quot;&gt;self&lt;/code&gt;).  This is done by changing the &lt;code class=&quot;language-text&quot;&gt;target&lt;/code&gt; property
+in &lt;tt&gt;webpack.config.js&lt;/tt&gt; to &lt;tt&gt;‘webworker’&lt;/tt&gt; like so&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;  target&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;webworker&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;The &lt;code class=&quot;language-text&quot;&gt;onclick&lt;/code&gt; implementation in &lt;tt&gt;AddValues.jsx&lt;/tt&gt;
+actually gets a bit cleaner using a WebWorker,
+all it has to do is create the &lt;code class=&quot;language-text&quot;&gt;Worker&lt;/code&gt;, send it an initialization message,
+and update the component state when we get a response&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;  &lt;span class=&quot;token function&quot;&gt;onclick&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; worker &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Worker&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;index.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    
+    worker&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;message&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; event &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;setState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;result&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; event&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;data&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      worker&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;terminate&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; emcc_options &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;asm.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;state&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asmjs&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                        &lt;span class=&quot;token string&quot;&gt;&apos;url_prefix&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    worker&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;postMessage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;emcc_options&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;The only other thing to do is to make &lt;tt&gt;index.mjs&lt;/tt&gt; a simple script
+instead of an ES6 module.  Again, the only thing it does is listen for
+an initialization message, and when it gets it load the emscripten code
+and return the result&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; LoadEmscripten &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./LoadEmscripten.mjs&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+self&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;message&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; event &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;LoadEmscripten&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;event&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;data&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; cspace &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    self&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;postMessage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;cspace&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;_add_values&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;22&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;The main ES6 module has been moved to &lt;tt&gt;LoadEmscripten&lt;/tt&gt;, where it is
+otherwise the same as it was.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Making emscripten, webpack, and node.js work together]]></title><description><![CDATA[Using a single code base and emscripten to make a c or c++  library available to both node.js and webpack is not entirely  trivial.  I've set up a simple repository that does exactly that, and is configured to dynamically load either the WebAssembly or  AsmJS version of the native code.]]></description><link>https://wildsilicon.com/blog/2018/emscripten-webpack/</link><guid isPermaLink="false">https://wildsilicon.com/blog/2018/emscripten-webpack/</guid><pubDate>Tue, 12 Jun 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I’ve recently started using emscripten to make some legacy c++ code
 available in javascript as a library — the main part of my
 application is still javascript, but I’m making calls into and out
 of the c++ code.  While there seems to be extensive documentation
